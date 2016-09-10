@@ -1,5 +1,5 @@
 #+TITLE: Backend con Elixir Language y Phoenix Framework
-#+SUBTITLE: Modulo 1: Programación Convencional
+#+SUBTITLE: Modulo 1: Programación Convencional Parte 1
 #+AUTHOR: Albert Castellano Moreno
 #+EMAIL: acastemoreno@gmail.com
 #+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:nil ^:t arch:headline

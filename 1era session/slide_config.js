@@ -2,7 +2,7 @@ var SLIDE_CONFIG = {
    // Slide Settings
    settings: {
      title: 'Backend con Elixir Language y Phoenix Framework', 
-     subtitle: 'Modulo 1: Programación Convencional', 
+     subtitle: 'Modulo 1: Programación Convencional Parte 1', 
      useBuilds: true, // Default: true. False will turn off slide animation builds. 
      usePrettify: true, // Default: true 
      enableSlideAreas: true, // Default: true. False turns off the click areas on either slide of the slides.
