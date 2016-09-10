@@ -1,0 +1,493 @@
+#+TITLE: Backend con Elixir Language y Phoenix Framework
+#+SUBTITLE: Modulo 1: Programación Convencional
+#+AUTHOR: Albert Castellano Moreno
+#+EMAIL: acastemoreno@gmail.com
+#+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:nil ^:t arch:headline
+#+OPTIONS: author:t c:nil creator:comment d:(not "LOGBOOK") date:t
+#+OPTIONS: e:t email:nil f:t inline:t num:nil p:nil pri:nil stat:t
+#+OPTIONS: tags:t tasks:t tex:t timestamp:t toc:nil todo:t |:t
+#+CREATOR: Emacs 24.4.1 (Org mode 8.2.10)
+#+DESCRIPTION:
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS:
+#+LANGUAGE: es
+#+SELECT_TAGS: export
+
+#+GITHUB: http://github.com/acastemoreno
+
+#+FAVICON: images/elixir.png
+#+ICON: images/elixir.png
+#+HASHTAG: #elixir #makerlab #AmiguitoEsMiPastorNadaMeFaltara
+
+* Tipos de Datos
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+** Contenido
+- IEx
+- Tipos Basicos
+- Tipos Compuestos
+* Interactive Elixir Shell (IEx)
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+** IEx
+Empezamos ejecutando =iex= en nuestra consola
+Ejemplo:
+#+BEGIN_SRC elixir
+$ iex
+iex(1)> 1 + 1
+2
+#+END_SRC
+
+* Tipos Basicos
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+** Numeros
+Integers: Pueden ser escritos en base diez (1234), hexagesimal (0xcafe), octal (0o765) y binario (0b1010).
+
+Numeros con punto flotante: al menos un digito antes y despues del punto, opcionalmente pueden agregarse exponente:
+
+=1.0=
+=0.2456=
+=0.314159e1=
+=314159.0e-5=
+** Atomos
+Atomos son constante que representan el nombre de algo. Escritos con =:= como primer caracter
+
+Ejemplos:
+#+BEGIN_SRC elixir
+:esto_es_un_atomo
+:"Un atomo con espacios"
+true == :true
+false == :false
+nil == :nil
+Enum == :enum  #Nombre de modulos son atomos
+#+END_SRC
+** Binarios
+Escrito como: =<<byte, byte, ...>>=
+
+Ejemplo:
+#+BEGIN_SRC elixir
+<<97, 109, 105, 103, 117, 105, 116, 111>>
+
+#Que por ASCII[fn:1] tambien puede ser escrito como:
+"amiguito"
+#+END_SRC
+** Strings
+"Hola Amiguitos"
+
+Ejemplos:
+#+BEGIN_SRC elixir
+# Strings son binarios
+"amiguito" == <<97, 109, 105, 103, 117, 105, 116, 111>>
+
+"""
+Esto es un string multilinea.
+Usado para documentación.
+"""
+#+END_SRC
+
+** Maps
+%{llave: valor, ...}
+
+Ejemplos:
+#+BEGIN_SRC elixir
+iex> persona = %{
+...>   nombre: "Albert",
+...>   apellidos: "Castellano Moreno"
+...>}
+
+iex> persona.nombre 
+"Albert"
+iex> persona[:nombre] 
+"Albert"
+#+END_SRC
+
+** Tuplas
+{valor, valor, ...}
+
+Ejemplos:
+#+BEGIN_SRC elixir
+iex>respuesta = {:ok, "Texto Resultado"} 
+iex>elem(respuesta, 0) # => :ok
+iex>elem(respuesta, 1) # => "Texto Resultado"
+#+END_SRC
+
+** Listas
+[valor, valor, ...]
+
+Ejemplos:
+#+BEGIN_SRC elixir
+iex> edades = = [42, 31, 24]
+iex> Enum.at(edades, 1) # => 31
+#+END_SRC
+
+** Implementación de Listas
+Las listas en Elixir pueden ser vacias ó pares inmutables =head/tail= 
+
+donde el =head= contiene un valor y el =tail= es en si misma una lista
+
+Ejemplos:
+#+BEGIN_SRC elixir
+iex> [ head | tail ] = [ 1, 2, 3 ] # => [1, 2, 3]
+iex> head 
+1
+iex> tail 
+[2, 3]
+#+END_SRC
+
+** Prepending en listas es =Rapido=
+#+BEGIN_SRC elixir
+iex> list1 = [1, 2, 3]
+iex> list2 = [0 | list1] 
+#+END_SRC
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 700px
+[[file:images/prepending.png]]
+#+END_CENTER
+
+** Appending en listas es =Lento=
+#+BEGIN_SRC elixir
+iex> list1 = [1, 2, 3]
+iex> list2 = list1 ++ [4] 
+#+END_SRC
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 700px
+[[file:images/appending.png]]
+#+END_CENTER
+
+** Insertar elementos es =Lento=
+#+BEGIN_SRC elixir
+iex> list1 = [1, 3, 4]
+iex> list2 = List.insert_at(list1, 1, 2) # insertando 2 en la segunda posicion
+iex> [1, 2, 3, 4]
+#+END_SRC
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 700px
+[[file:images/insert_list.png]]
+#+END_CENTER
+
+** Implementación de Listas
+- Elixir son pares head/tail
+- Inmutabilidad hacen que sean eficientes en memoria
+- Prepending es RAPIDO
+- Appending es LENTO
+- Insertando elementos puede ser lento
+- Leer la lista entera puede ser lento
+
+** Lista de Caracteres
+[integer, integer, ...]
+
+Ejemplos:
+#+BEGIN_SRC elixir
+#Notacion corta
+iex> 'amiguito'
+iex> [97, 109, 105, 103, 117, 105, 116, 111>]
+#+END_SRC
+
+Usalo solo cuando quieras trabajar con una libreria de Erlang, se explicara despues
+
+** Otros Tipos Basicos
+- PIDs
+- References
+- Records
+- Port references
+
+** Como checker el tipo de un valor
+is_type(valor)
+
+Ejemplos:
+#+BEGIN_SRC elixir
+#Notacion corta
+iex> is_atom(:hello) 
+true
+iex> is_list([1, 2, 3]) 
+true
+iex> is_map(%{ ... }) 
+true
+#+END_SRC
+
+* Tipos Compuestos
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+
+** Keyword Lists
+[{:atomo, valor}, ...]
+
+Ejemplos:
+#+BEGIN_SRC elixir
+#Notacion corta
+iex> persona = [nombre: "Albert",
+...> apellidos: "Castellano Moreno"]
+#Equivalente a [{:nombre, "ALbert"}, {:apellidos, "Castellano Moreno"}]
+#Para acceder a un valor se usa
+iex> persona[:nombre] 
+iex> persona[:apellidos] 
+#+END_SRC
+** Estructuras
+=%{__struct__: ModuleName, ...}=
+
+Ejemplos:
+#+BEGIN_SRC elixir
+#Notacion corta
+%Session{titulo: "Holi", autor: "amiguito"}
+#Interna Representación
+%{__struct__:, Session,titulo: "Holi", autor: "amiguito"}
+#+END_SRC
+
+** Rangos
+=%Range{first: number, last: number}=
+
+Ejemplos:
+#+BEGIN_SRC elixir
+#Notacion corta
+iex> 0..100
+
+#Interna Representación
+%Range{first: 0, last: 100}
+#+END_SRC
+
+** Expresiones Regulares
+=%Regex{opts: ..., re_pattern: ...}=
+
+Ejemplos:
+#+BEGIN_SRC elixir
+#Notacion corta
+iex> ~r/holi, soy un texto/
+
+#Interna Representación
+%Regex{
+  opts: "",
+  re_pattern: {:re_pattern, <<69, 82, 67, 80, 81, 0, ...>>},
+  source: "holi, soy un texto"
+}
+#+END_SRC
+
+** Otros Tipos Compuestos
+- Tasks
+- Agents
+- Streams
+- HashDicts
+- HashSets
+
+* Operadores
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END: 
+
+** Contenido
+- Qué son los Operadores?
+- Operador Match
+- Operadores Matematicos
+- Comparadores
+
+** Qué son los Operadores?
+#+BEGIN_QUOTE
+一Operators can be seen as a special form of function with different calling notation and a limited number of parameters.
+
+      -- Wikipedia
+#+END_QUOTE
+
+* func(left, right)
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END: 
+
+* left <func> right
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END: 
+
+* Operador Match
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END: 
+
+* patron = data
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END: 
+
+** Operador Match
+#+BEGIN_SRC elixir
+iex> nombre = "Albert"
+"Albert"
+iex> edad  = 24
+24
+#+END_SRC
+** Operador Match
+El nombre de las variables pueden reenlazarse.
+
+Ejemplo:
+#+BEGIN_SRC elixir
+iex> nombre = "Albert"
+"Albert"
+iex> nombre = "Amiguito"
+"Amiguito"
+#+END_SRC
+
+** Operador Match
+Patrones complejos y multipartes puede ser usadas
+
+Ejemplo:
+#+BEGIN_SRC elixir
+iex> {nombre, edad} = {"Albert", 24}
+{"Albert", 24}
+iex> nombre
+"Albert"
+iex> edad
+24
+#+END_SRC
+
+** Operador Match
+Variables solo pueden enlazar una vez por match.
+
+Ejemplo:
+#+BEGIN_SRC elixir
+#Contrajemplo
+iex> {edad, edad} = {23, 24}
+(MatchError) no match of right hand side value: {23, 24}
+#+END_SRC
+
+** Operador Match
+Usamos =_= para ignorar elementos en un match.
+
+Ejemplo:
+#+BEGIN_SRC elixir
+iex> {nombre, _} = {"Albert", 24}
+{"Albert", 24}
+iex> nombre
+"Albert"
+#Tambien puedo usar la siguiente forma solo por un tema de doocumentación
+iex> {nombre, _edad} = {"Albert", 24}
+{"Albert", 24}
+iex> edad
+warning: ...........
+#+END_SRC
+
+** Operador Match
+Usamos el operador match para hacer una afirmación
+
+Ejemplo:
+#+BEGIN_SRC elixir
+iex> {"Albert", edad} = {"Albert", 24}
+{"Albert", 24}
+iex> edad
+24
+
+iex> {"Amiguito", edad} = {"Albert", 24}
+(MatchError) no match of right hand side value: 
+#+END_SRC
+
+** Operador Match
+Usamos =^= cuando queremos usar el valor de las variables en el lado del patron.
+
+Ejemplo:
+#+BEGIN_SRC elixir
+iex> nombre = "Albert"
+"Albert"
+iex> {^nombre, edad} = {"Albert", 24}
+{"Albert", 24}
+iex> edad
+24
+#+END_SRC
+
+** Operador Match
+Todos los Tipos de datos en Elixir pueden ser matcheados.
+
+Ejemplo:
+#+BEGIN_SRC elixir
+#Mapas
+iex> %{nombre: nombre, edad: edad} = %{nombre: "Albert", edad: 24}
+#Estructuras
+iex> %Persona{} = %Persona{nombre: "Albert", edad: 24}
+{"Albert", 24}
+#Binarios
+iex> "Hola " <> palabra = "Hola Mundo"
+"Hola Mundo"
+iex> palabra
+mundo
+#+END_SRC
+** Operadores Matematicos
+#+BEGIN_SRC elixir
+iex> 1 + 1
+2
+iex> 5 - 2
+3
+iex> 15 / 3
+5.0
+iex> 3 * 5
+15
+#+END_SRC
+* Comparadores
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END: 
+** Igualdad
+#+BEGIN_SRC elixir
+iex> "Albert" == "Albert"
+true
+iex> 1 == 2
+false
+iex> 1 == 1.0
+true
+iex> 1 === 1.0
+false
+#+END_SRC
+** Inegualdad: =!== y =!=== 
+#+BEGIN_SRC elixir
+iex> 1 != 2
+true
+iex> 1 != 1.0
+false
+iex> 1 !== 1.0
+true
+#+END_SRC
+
+** Mayor/Menor que
+=>=, =>==, =<=, =<==
+
+Ejemplos:
+#+BEGIN_SRC elixir
+iex> 2 > 1
+true
+iex> 2 >= 2
+true
+iex> 1 < 2
+true
+iex> 1 <= 2
+true
+#+END_SRC
+
+* Gracias ˊ・ω・ˋ
+  :PROPERTIES:
+  :SLIDE: thank-you-slide segue
+  :ASIDE: right
+  :ARTICLE: flexbox vleft auto-fadein
+  :END:
+
+ * Footnotes
+[fn:1] Código Estándar Estadounidense para el Intercambio de Información

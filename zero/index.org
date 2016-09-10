@@ -16,8 +16,8 @@
 
 #+GITHUB: http://github.com/acastemoreno
 
-#+FAVICON: images/phoenix.png
-#+ICON: images/phoenix.svg
+#+FAVICON: images/elixir.png
+#+ICON: images/elixir.png
 #+HASHTAG: #elixir #makerlab #AmiguitoEsMiPastorNadaMeFaltara
 
 * Amiguito. Quién eres?
