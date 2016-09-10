@@ -33,7 +33,7 @@
 #+END_CENTER
 ** 
 Formación:
-- Ingeniería Mecánica - Universidad Nacional de Ingeniería - Aproximamente 2017-1
+- Ingeniería Mecánica - Universidad Nacional de Ingeniería - Finalizando el 2017-1
 - Programacion: Autodidacta
 Experiencia Laboral:
 - Trabajos Freelancer con Symfony (framework php) - 2012
