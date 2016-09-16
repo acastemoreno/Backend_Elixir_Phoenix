@@ -2,7 +2,7 @@
 <html>
 <head>
 <title></title>
-<!-- 2016-09-15 jue 18:49 -->
+<!-- 2016-09-15 jue 19:13 -->
 <meta  charset="utf-8" />
 <meta  htto-equiv="X-UA-Compatible" content="chrome=1" />
 <meta  name="generator" content="Org-mode with org-ioslide" />
@@ -1587,8 +1587,8 @@ iex&gt; "Holi Woli, #{saludo}"
 </slide>
 <slide id="sec-" class=" segue dark quote nobackground" style="background-image: url(nil)">
 <aside class="gdbar right bottom"><img src="images/elixir.png"></aside><hgroup class="">
-       <h2 class=" "><div id="outline-container-orgheadline57" class="outline-2">
-<h2 id="orgheadline57">Operadores logicos</h2>
+       <h2 class=" "><div id="outline-container-orgheadline58" class="outline-2">
+<h2 id="orgheadline58">Operadores logicos</h2>
 </div>
 </h2>
        <h3></h3>
@@ -1621,7 +1621,6 @@ iex&gt; true or false
 true
 iex&gt; not true
 false
-[3]
 </pre>
 
 </div>
@@ -1632,7 +1631,46 @@ false
 </slide>
 
 </slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline57" class="outline-3">
+<h3 id="orgheadline57">Operadores booleanos relajados</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<p>
+<code>nil</code> y <code>false</code> son conciderados como <code>false</code>. Todos los demas son conciderados como <code>true</code>. Estos operadores son:
+</p>
+<ul>
+<li><code>||</code>: Retorna el primer valor siempre que este sea equivalente a true, caso contraro el segundo</li>
+<li><code>&amp;&amp;</code>: Retorna el segundo valor siempre que este sea equivalente a true, caso contraro el primero</li>
+<li><code>!</code>: Retorna <code>false</code> si el parametros es equivalente a true, caso contratio retornara <code>true</code></li>
+</ul>
+<div class="org-src-container">
 
+<pre class="prettyprint" data-lang="elixir">
+iex&gt; "albert" || "castellano"
+"albert"
+iex&gt; false || "castellano"
+"castellano"
+iex&gt; "albert" &amp;&amp; "castellano"
+"castellano"
+iex&gt; "albert" &amp;&amp; false
+"albert"
+iex&gt; !"albert"
+false
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
 </slide>
 <slide id="sec-" class=" thank-you-slide segue nobackground" style="background-image: url(nil)">
 <aside class="gdbar right"><img src="images/elixir.png"></aside><article class="flexbox vleft auto-fadein" id="text-">
