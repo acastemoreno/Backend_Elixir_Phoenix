@@ -2,7 +2,7 @@
 <html>
 <head>
 <title></title>
-<!-- 2016-09-10 sáb 13:13 -->
+<!-- 2016-09-15 jue 18:49 -->
 <meta  charset="utf-8" />
 <meta  htto-equiv="X-UA-Compatible" content="chrome=1" />
 <meta  name="generator" content="Org-mode with org-ioslide" />
@@ -584,7 +584,7 @@ Usalo solo cuando quieras trabajar con una libreria de Erlang, se explicara desp
        </hgroup>
 <article class="" id="text-">
 <p>
-is<sub>type</sub>(valor)
+<code>is_type(valor)</code>
 </p>
 
 <p>
@@ -1316,6 +1316,312 @@ iex&gt; 1 &lt; 2
 true
 iex&gt; 1 &lt;= 2
 true
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+
+</slide>
+<slide id="sec-" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/elixir.png"></aside><hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline52" class="outline-2">
+<h2 id="orgheadline52">Operadores list</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-">
+
+
+</article>
+
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline47" class="outline-3">
+<h3 id="orgheadline47">Operador lista <code>in</code></h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<p>
+Verifica si un elemento esta dentro de una lista
+</p>
+
+<p>
+Ejemplos:
+</p>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+iex&gt; "amiguito" in ["albert", "amiguito", "roman", ":v"]
+true
+iex&gt; "cualquier texto" in ["albert", "amiguito", "roman", ":v"]
+true
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline48" class="outline-3">
+<h3 id="orgheadline48">Operador lista <code>++</code></h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<p>
+Combina 2 listas
+Ejemplos:
+</p>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+iex(1)&gt; [1, 2] ++ [2, 3]
+[1, 2, 2, 3]
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline49" class="outline-3">
+<h3 id="orgheadline49">Operador lista <code>--</code></h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<p>
+Elimina elementos de una lista
+Ejemplos:
+</p>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+iex(1)&gt; [1, 2] - [2, 3]
+[1]
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline50" class="outline-3">
+<h3 id="orgheadline50">Operador lista <code>|</code></h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<p>
+Prepend a una lista
+Ejemplos:
+</p>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+iex(1)&gt; lista = [1, 2, 3]
+[1, 2, 3]
+iex(1)&gt; [0 | lista]
+[0, 1, 2, 3]
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline51" class="outline-3">
+<h3 id="orgheadline51">Operador lista <code>|</code></h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="smaller" id="text-">
+<p>
+<code>|</code> dentro de un patron en un match
+Ejemplos:
+</p>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+iex(1)&gt; [head | tail] = ["albert", "castellano", "moreno"]
+["albert", "castellano", "moreno"]
+iex(1)&gt; head
+"albert"
+iex(1)&gt; tail
+["castellano", "moreno"]
+iex&gt; [a, b, c | tail] = [0, 1, 2, 3]
+[0, 1, 2, 3]
+iex&gt; a
+0
+iex&gt; b
+1
+iex&gt; c
+2
+iex&gt; tail
+[3]
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+
+</slide>
+<slide id="sec-" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/elixir.png"></aside><hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline55" class="outline-2">
+<h2 id="orgheadline55">Operadores binarios</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-">
+
+
+</article>
+
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline53" class="outline-3">
+<h3 id="orgheadline53">Concatenar texto</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<p>
+Ejemplos:
+</p>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+iex&gt; "hola " &lt;&gt; "mundo"
+"hola mundo"
+iex&gt; "hola" &lt;&gt; text = "hola mundo"
+"hola mundo"
+iex&gt; text
+" mundo"
+[3]
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline54" class="outline-3">
+<h3 id="orgheadline54">Interpolar texto</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<p>
+Interpolar valores en un texto con <code>#{}</code>
+Ejemplos:
+</p>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+iex&gt; "Uno más dos es: #{1 + 2}"
+"Uno más dos es: 3"
+iex&gt; saludo = "Amiguito"
+"Amiguito"
+iex&gt; "Holi Woli, #{saludo}"
+"Holi Woli, Amiguito"
+[3]
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+
+</slide>
+<slide id="sec-" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/elixir.png"></aside><hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline57" class="outline-2">
+<h2 id="orgheadline57">Operadores logicos</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-">
+
+
+</article>
+
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline56" class="outline-3">
+<h3 id="orgheadline56">Operaciones Booleanas</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<p>
+Esperan solo <code>true</code>, <code>false</code>. Estos operadores son: <code>and</code>, <code>or</code> y <code>not</code>
+Ejemplos:
+</p>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+iex&gt; true and true
+tue
+iex&gt; true or false
+true
+iex&gt; not true
+false
+[3]
 </pre>
 
 </div>

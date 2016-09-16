@@ -202,7 +202,7 @@ Usalo solo cuando quieras trabajar con una libreria de Erlang, se explicara desp
 - Port references
 
 ** Como checker el tipo de un valor
-is_type(valor)
+=is_type(valor)=
 
 Ejemplos:
 #+BEGIN_SRC elixir
@@ -482,6 +482,142 @@ iex> 1 <= 2
 true
 #+END_SRC
 
+* Operadores list
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END: 
+
+** Operador lista =in=
+Verifica si un elemento esta dentro de una lista
+
+Ejemplos:
+#+BEGIN_SRC elixir
+iex> "amiguito" in ["albert", "amiguito", "roman", ":v"]
+true
+iex> "cualquier texto" in ["albert", "amiguito", "roman", ":v"]
+true
+#+END_SRC
+
+** Operador lista =++=
+Combina 2 listas
+Ejemplos:
+#+BEGIN_SRC elixir
+iex(1)> [1, 2] ++ [2, 3]
+[1, 2, 2, 3]
+#+END_SRC
+
+** Operador lista =--=
+Elimina elementos de una lista
+Ejemplos:
+#+BEGIN_SRC elixir
+iex(1)> [1, 2] - [2, 3]
+[1]
+#+END_SRC
+
+** Operador lista =|=
+Prepend a una lista
+Ejemplos:
+#+BEGIN_SRC elixir
+iex(1)> lista = [1, 2, 3]
+[1, 2, 3]
+iex(1)> [0 | lista]
+[0, 1, 2, 3]
+#+END_SRC
+
+** Operador lista =|=
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+=|= dentro de un patron en un match
+Ejemplos:
+#+BEGIN_SRC elixir
+iex(1)> [head | tail] = ["albert", "castellano", "moreno"]
+["albert", "castellano", "moreno"]
+iex(1)> head
+"albert"
+iex(1)> tail
+["castellano", "moreno"]
+iex> [a, b, c | tail] = [0, 1, 2, 3]
+[0, 1, 2, 3]
+iex> a
+0
+iex> b
+1
+iex> c
+2
+iex> tail
+[3]
+#+END_SRC
+
+* Operadores binarios
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END: 
+
+** Concatenar texto
+Ejemplos:
+#+BEGIN_SRC elixir
+iex> "hola " <> "mundo"
+"hola mundo"
+iex> "hola" <> text = "hola mundo"
+"hola mundo"
+iex> text
+" mundo"
+[3]
+#+END_SRC
+** Interpolar texto
+Interpolar valores en un texto con =#{}=
+Ejemplos:
+#+BEGIN_SRC elixir
+iex> "Uno más dos es: #{1 + 2}"
+"Uno más dos es: 3"
+iex> saludo = "Amiguito"
+"Amiguito"
+iex> "Holi Woli, #{saludo}"
+"Holi Woli, Amiguito"
+[3]
+#+END_SRC
+
+* Operadores logicos
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END: 
+
+** Operaciones Booleanas
+Esperan solo =true=, =false=. Estos operadores son: =and=, =or= y =not=
+Ejemplos:
+#+BEGIN_SRC elixir
+iex> true and true
+tue
+iex> true or false
+true
+iex> not true
+false
+#+END_SRC
+
+** Operadores booleanos relajados
+=nil= y =false= son conciderados como =false=. Todos los demas son conciderados como =true=. Estos operadores son:
+- =||=: Retorna el primer valor siempre que este sea equivalente a true, caso contraro el segundo
+- =&&=: Retorna el segundo valor siempre que este sea equivalente a true, caso contraro el primero
+- =!=: Retorna =false= si el parametros es equivalente a true, caso contratio retornara =true=
+#+BEGIN_SRC elixir
+iex> "albert" || "castellano"
+"albert"
+iex> false || "castellano"
+"castellano"
+iex> "albert" && "castellano"
+"castellano"
+iex> "albert" && false
+"albert"
+iex> !"albert"
+false
+#+END_SRC
 * Gracias ˊ・ω・ˋ
   :PROPERTIES:
   :SLIDE: thank-you-slide segue
