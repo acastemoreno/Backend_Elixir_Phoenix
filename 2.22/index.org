@@ -458,6 +458,12 @@ iex> resultado = 1..10 |> Enum.map(&(&1*&1)) |> Enum.filter(&(&1 < 40))
 [1, 4, 9, 16, 25, 36]
 #+END_SRC
 
+** 
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 450px
+[[file:images/mi_astucia.jpg]]
+#+END_CENTER
+
 * Lema de la 3ra Session
   :PROPERTIES:
   :SLIDE:    segue dark quote
