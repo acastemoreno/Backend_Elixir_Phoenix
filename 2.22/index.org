@@ -19,6 +19,30 @@
 #+ICON: images/elixir.png
 #+HASHTAG: #elixir #makerlab #AmiguitoEsMiPastorNadaMeFaltara
 
+* Olvide Mencionar. Lema de la 1era Session
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END: 
+** 
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 750px
+[[file:images/EVANGELION 1.11.png]]
+#+END_CENTER
+
+* Lema de la 2da Session
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END: 
+** 
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 650px
+[[file:images/not_advance.png]]
+#+END_CENTER
+
 * Sorry, empezemos con la instalación
   :PROPERTIES:
   :SLIDE:    segue dark quote
@@ -434,10 +458,16 @@ iex> resultado = 1..10 |> Enum.map(&(&1*&1)) |> Enum.filter(&(&1 < 40))
 [1, 4, 9, 16, 25, 36]
 #+END_SRC
 
+* Lema de la 3ra Session
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END: 
 ** 
 #+BEGIN_CENTER
-#+ATTR_HTML: :width 450px
-[[file:images/mi_astucia.jpg]]
+#+ATTR_HTML: :width 650px
+[[file:images/redo.jpg]]
 #+END_CENTER
 
 * Gracias ˊ・ω・ˋ
