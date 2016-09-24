@@ -321,7 +321,7 @@ defmodule Holi.Proceso2 do
     receive do
       {remitente, mensaje} ->
         send remitente, {:ok, "Holi Amiguit@: #{mensaje}"}
-        pong
+        <b>pong</b>
     end
   end
 end
