@@ -460,7 +460,7 @@ iex> resultado = 1..10 |> Enum.map(&(&1*&1)) |> Enum.filter(&(&1 < 40))
 
 ** 
 #+BEGIN_CENTER
-#+ATTR_HTML: :width 450px
+#+ATTR_HTML: :width 4250px
 [[file:images/mi_astucia.jpg]]
 #+END_CENTER
 

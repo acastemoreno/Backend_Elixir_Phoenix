@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<!-- 2016-09-24 sáb 05:38 -->
+<meta  charset="utf-8" />
+<meta  htto-equiv="X-UA-Compatible" content="chrome=1" />
+<meta  name="generator" content="Org-mode with org-ioslide" />
+<meta  name="author" content="Albert Castellano Moreno" />
+
+
+<!--<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">-->
+<!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--This one seems to work all the time, but really small on ipad-->
+<!--<meta name="viewport" content="initial-scale=0.4">-->
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<link rel="stylesheet" media="all" href="theme/css/default.css" />
+<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="theme/css/phone.css" />
+<link rel="stylesheet" media="all" href="theme/css/small-icon.css" />
+<base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+<script data-main="js/slides" src="js/require-1.0.8.min.js"></script>
+
+   <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
+
+<script src="js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML,local/local" type="text/javascript"></script>
+</head>
+<body style="opacity: 0">
+<slides class="layout-widescreen">
+<slide class="title-slide segue nobackground">
+       <aside class="gdbar"><img src="images/elixir.png"></aside>
+       <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+       <hgroup class="auto-fadein">
+         <h1 data-config-title><!-- populated from slide_config.json --></h1>
+         <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+         <p data-config-presenter><!-- populated from slide_config.json --></p>
+       </hgroup>
+    </slide>
+  
+<slide id="sec-" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/elixir.png"></aside><hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline2" class="outline-2">
+<h2 id="orgheadline2">Lema de 3ra Session en adelante</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-">
+
+
+</article>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline1" class="outline-3">
+<h3 id="orgheadline1"></h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="images/redo.jpg" alt="redo.jpg" width="650px" />
+</p>
+</div>
+</article>
+
+
+</article>
+
+</slide>
+
+</slide>
+
+</slide>
+<slide id="sec-" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/elixir.png"></aside><hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline4" class="outline-2">
+<h2 id="orgheadline4">Contenido</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-">
+
+
+</article>
+
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline3" class="outline-3">
+<h3 id="orgheadline3"></h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li>Mix
+<ul>
+<li>Introduccion a Mix</li>
+<li>Demo: Mix Project and Mix Tasks</li>
+</ul></li>
+<li>Programación Concurrente &lt;3
+<ul>
+<li>Trabajando multiples procesos</li>
+</ul></li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+
+</slide>
+<slide id="sec-" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/elixir.png"></aside><hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline17" class="outline-2">
+<h2 id="orgheadline17">Mix</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-">
+
+
+</article>
+
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline5" class="outline-3">
+<h3 id="orgheadline5">Qué es Mix?</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<p>
+Mix es una herramienta que mediante linea de comandos maneja projectos Elixir. 
+</p>
+
+<p>
+Mix es usado para crear nuevos proyectos, manejar dependencias, ejecutar pruebas, ejecutar tu proyecto.
+</p>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline6" class="outline-3">
+<h3 id="orgheadline6">Demo</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="smaller" id="text-">
+<p>
+Creamos nuestro primer proyecto Elixir usando el comando <code>mix new holi</code>
+</p>
+
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="images/new_project.png" alt="new_project.png" width="450px" />
+</p>
+</div>
+</article>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline7" class="outline-3">
+<h3 id="orgheadline7"></h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<p>
+Ahora observamos la siguiente estructura de archivos:
+</p>
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="images/folder.png" alt="folder.png" width="250px" />
+</p>
+</div>
+</article>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline8" class="outline-3">
+<h3 id="orgheadline8">Estructura</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="smaller" id="text-">
+<ul>
+<li><code>README.md</code>: Archivo Markdown que es usado para indicar requisitos y procedimientos para cuando otras personas usen nuestro proyecto, en especial cuando publiquemos nuestro proyecto como libreria.</li>
+<li><code>mix.exs</code>: Archivo que define el nombre de nuestro proyecto, la version, las dependencias, las librerias que funcionaran en su propio proceso, etc.</li>
+<li><code>.gitignore</code>: Archivo usado para manejar que archivos no seran trackeados por git (control de versiones).</li>
+<li>Carpeta <code>test</code>: Contendra codigo util para hacer testing.</li>
+<li>Carpeta "lib": Contendra la mayoria del codigo de nuestra aplicación.
+<ul>
+<li>Archivo <code>holi.ex</code>: Archivo con el nombre de nuestro proyecto. Modulo que representa nuestra aplicación.</li>
+</ul></li>
+<li>Carpeta <code>config</code>: Contiene configuraciones de nuestra aplicación.</li>
+</ul>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline9" class="outline-3">
+<h3 id="orgheadline9">Holi Woli</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="smaller" id="text-">
+<p>
+Elixir tiene una convención. Dentro de la carpeta <code>/lib</code>, debes crear otra carpeta con el mismo nombre del proyecto. Aqui escribiremos nuestro codigo. El archivo <code>holi.exs</code> nos servira cuando trabajemos con OTP. 
+</p>
+
+<p>
+Por tanto en la carpeta <code>lib/holi/</code> crearemos nuestro primer modulo junto con una función:
+</p>
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="images/holi.png" alt="holi.png" width="550px" />
+</p>
+</div>
+</article>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline10" class="outline-3">
+<h3 id="orgheadline10"></h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<p>
+Cargamos nuestro proyecto a iex para poder usarlo dentro de la shell con el comando <code>iex -S mix</code>
+</p>
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="images/iex_-S_mix.png" alt="iex_-S_mix.png" width="550px" />
+</p>
+</div>
+</article>
+<p>
+Observamos que adicional al clasico inicio de sesion, iex nos informa que se compilaron 2 archivos y que se genero la aplicacion holi.
+Ahora, al ejecutar la función <code>Holi.Woli.saludo</code>, este devolvera un string <code>Hola Amiguitos xD</code>. Ademas notaremos que se creo una carpeta <code>build</code> donde estaran todos los archivos compilados de nuestra aplicación.
+</p>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline11" class="outline-3">
+<h3 id="orgheadline11">Librerias</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="smaller" id="text-">
+<p>
+Visitamos <a href="https://hex.pm/">https://hex.pm/</a> y buscamos una libreria que nos permita hacer peticiones http.
+</p>
+
+<p>
+Encontramos la libreria <code>httpoison</code> y seguimos las instrucciones dadas para instalar la libreria.
+</p>
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="images/httpoison.png" alt="httpoison.png" width="550px" />
+</p>
+</div>
+</article>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline12" class="outline-3">
+<h3 id="orgheadline12"></h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<p>
+Descargamos la libreria con el siguiente comando <code>mix deps.get</code>
+</p>
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="images/mix_deps_get.png" alt="mix_deps_get.png" width="500px" />
+</p>
+</div>
+</article>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline13" class="outline-3">
+<h3 id="orgheadline13"></h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<p>
+Revisamos documentación de Github para obtener los <a href="https://developer.github.com/v3/issues/#list-issues-for-a-repository">issues de un repo</a>, el requisito obligatorio de <a href="https://developer.github.com/v3/#user-agent-required">indicar quien esta haciendo la petición</a> y la documentación de <a href="https://hexdocs.pm/httpoison/HTTPoison.html#get/3">Httpoison</a> para crear el siguiente codigo:
+</p>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+#lib/holi/github.ex
+defmodule Holi.Github do
+  def issues do
+    "https://api.github.com/repos/phoenixframework/phoenix/issues"
+        |&gt; HTTPoison.get([{"User-agent", "Albert Castellano acastemoreno@gmail.com"}])
+  end
+end
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline14" class="outline-3">
+<h3 id="orgheadline14"></h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<p>
+Ahora ejecutamos nuevamente <code>iex -S mix</code>
+</p>
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="images/iex_-S_mix2.png" alt="iex_-S_mix2.png" width="700px" />
+</p>
+</div>
+</article>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline15" class="outline-3">
+<h3 id="orgheadline15"></h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="smaller" id="text-">
+<p>
+Luego, cuando ejecutamos <code>Holi.Github.issues</code> nos devuelva una tupla con el clasico <code>:ok</code> ó <code>:error</code> como primer elemento y una estructura <code>%HTTPoison.Response{}</code> como segundo parametro.
+</p>
+
+<p>
+Ahora para procesar solo el contenido de los issues modifico mi modulo <code>Holi.Github</code> de la siguiente manera:
+</p>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+#lib/holi/github.ex
+defmodule Holi.Github do
+  alias HTTPoison.Response
+  alias HTTPoison.Error
+
+  def issues do
+    "https://api.github.com/repos/phoenixframework/phoenix/issues"
+        |&gt; HTTPoison.get([{"User-Agent", "Albert Castellano acastemoreno@gmail.com"}])
+        |&gt; process_response
+  end
+
+  defp process_response ({:ok, %Response{status_code: 200, body: body}}) do
+    {:ok, body}
+  end
+
+  defp process_response ({:error, %Error{reason: atomo}}) do
+    {:error, atomo}
+  end
+end
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline16" class="outline-3">
+<h3 id="orgheadline16"></h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="smaller" id="text-">
+<p>
+Ahora voy a procesar esa respuesta (notese que <code>body</code> es un texto que representa un json). Busco una libreria para procesar <code>json</code>, encuentro <a href="https://github.com/devinus/poison">poison</a> para luego instalar tal como nos indicia su documentación.
+</p>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+#lib/holi/github.ex
+defmodule Holi.Github do
+  alias HTTPoison.Response
+  alias HTTPoison.Error
+  alias Poison.Parser
+
+  def issues do
+    "https://api.github.com/repos/phoenixframework/phoenix/issues"
+        |&gt; HTTPoison.get([{"User-Agent", "Albert Castellano acastemoreno@gmail.com"}])
+        |&gt; process_response
+  end
+
+  defp process_response ({:ok, %Response{status_code: 200, body: body}}) do
+    Parser.parse!(body)
+    |&gt; Enum.take(4)
+    |&gt; Enum.sort(&amp;(&amp;1["created_at"] &lt;= &amp;2["created_at"]))
+    |&gt; Enum.map(&amp;{&amp;1["created_at"], &amp;1["title"]})
+  end
+
+  defp process_response ({:error, %Error{}}) do
+    raise "Que paso amiguito?"
+  end
+end
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+</slide>
+<slide id="sec-" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/elixir.png"></aside><hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline24" class="outline-2">
+<h2 id="orgheadline24">Programación Concurrente &lt;3</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-">
+
+
+</article>
+
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline18" class="outline-3">
+<h3 id="orgheadline18">Trabajando con multiples procesos</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="smaller" id="text-">
+<p>
+Una de las carateristica claves de ELixir es la idea de empaquetar codigo en pequeños trozos tal que cada uno sera ejecutado de forma independiente y simultanea.Para otros lenguajes convencionales espamear multiples procesos es tedioso y muchas veces con un castigo en la eficiencia.
+</p>
+
+<p>
+Elixir no tiene este problema, gracias a la arquitectura BEAM (the Erlang Virtual Machine)
+</p>
+
+<p>
+Elixir usa el modelo actor para concurrencia. Un actor es un proceso independiente que no comparte estado alguno con otros procesos. Con los procesos se pueden espamear nuevos procesos, mandar y recibir mensajes a otros procesos.
+</p>
+
+<p>
+<code>NOTA</code>: Cuando hablamos de procesos en Elixir, no estamos hablando de procesos del sistema operativo nativo. Estos procesos son demasiado lentos y voluminosos. En su lugar, Elixir utiliza el soporte de procesos en Erlang. EStos procesos se ejecutaran a través de todas las CPUs (al igual que los procesos nativos), pero con muy poca sobrecarga. Veremos que sera sencillo crear miles de millones de procesos en una modesta computadora.
+</p>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline19" class="outline-3">
+<h3 id="orgheadline19">Spaunear proceso</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="smaller" id="text-">
+<p>
+Escribimos el siguiente codigo:
+</p>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+#lib/holi/proceso_basico.ex
+defmodule Holi.ProcesoBasico do
+  def mensaje do
+    IO.puts "Holi Woli"
+  end
+end
+</pre>
+
+</div>
+<p>
+Cargamos nuevamente en iex nuestro proyecto con <code>iex -S mix</code>. Luego creamos un nuevo procesode la siguiente manera:
+</p>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+iex&gt; spawn(Holi.ProcesoBasico, :mensaje, [])
+Holi Woli
+#PID&lt;0.179.0&gt;
+</pre>
+
+</div>
+<p>
+La función spawn retorna un <code>PID</code>. <code>PID</code> es un identificar unico para cada proceso dentro de nuestra aplicación.
+</p>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline20" class="outline-3">
+<h3 id="orgheadline20"></h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="smaller" id="text-">
+<p>
+Vamos a crear 2 modulos, uno que se encarga de enviar mensajes y otro que se encarga de responder a este mensaje.
+</p>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+#lib/holi/proceso1.ex
+defmodule Holi.Proceso1 do
+  alias Holi.Proceso2
+
+  def ping do
+    pid = spawn(Proceso2, :pong, [])
+    send pid, {self, "Albert!"}
+    receive do
+      {:ok, mensaje} -&gt; IO.puts mensaje
+    end
+  end
+end
+
+#lib/holi/proceso2.ex
+defmodule Holi.Proceso2 do
+  def pong do
+    receive do
+      {remitente, mensaje} -&gt;
+        send remitente, {:ok, "Holi Amiguit@: #{mensaje}"}
+    end
+  end
+end
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline21" class="outline-3">
+<h3 id="orgheadline21"></h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="smaller" id="text-">
+<p>
+Que pasa si modificamos el modulo 1 para que envie un nuevo mensaje al proceso creado.
+</p>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+#lib/holi/proceso1.ex
+defmodule Holi.Proceso1 do
+  alias Holi.Proceso2
+
+  def ping(amiguito) do
+    pid = spawn(Proceso2, :pong, [])
+    send pid, {self, amiguito}
+    receive do
+      {:ok, mensaje} -&gt; IO.puts mensaje
+    end
+    send pid, {self, "Otra persona!"}
+    receive do
+      {:ok, mensaje} -&gt; IO.puts mensaje
+    end
+  end
+end
+</pre>
+
+</div>
+<p>
+Ejecutamos <code>Holi.Proceso1.ping("Albert")</code> y observamos que muestra un primer mensaje pero se queda estancado en ese punto. Lo que pasa es que una vez procesado el <code>receive</code> en el proceso, este termina. Por eso el proceso principal se queda esperando a un proceso que nunca retorna valor alguno.
+</p>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline22" class="outline-3">
+<h3 id="orgheadline22"></h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<p>
+Modificamos para crear un <code>timeout</code> (teclea <code>h</code>)
+</p>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+#lib/holi/proceso1.ex
+defmodule Holi.Proceso1 do
+  alias Holi.Proceso2
+
+  def ping(amiguito) do
+    pid = spawn(Proceso2, :pong, [])
+    send pid, {self, amiguito}
+    receive do
+      {:ok, mensaje} -&gt; IO.puts mensaje
+    end
+    send pid, {self, "Otra persona!"}
+    receive do
+      {:ok, mensaje} -&gt; IO.puts mensaje
+      <b>after 500 -&gt; IO.puts "Despues de 500 ms, Que paso amiguito?"</b>
+    end
+  end
+end
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline23" class="outline-3">
+<h3 id="orgheadline23"></h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<p>
+Fue una chapuza lo del timeout, resolvamos lo anterior de la manera correcta:
+</p>
+
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+#lib/holi/proceso2.ex
+defmodule Holi.Proceso2 do
+  def pong do
+    receive do
+      {remitente, mensaje} -&gt;
+        send remitente, {:ok, "Holi Amiguit@: #{mensaje}"}
+        pong
+    end
+  end
+end
+</pre>
+
+</div>
+
+<p>
+Llamada Recursiva, Tail Optimization &lt;3
+</p>
+
+
+</article>
+
+</slide>
+
+</slide>
+
+
+</slide>
+<slide id="sec-" class=" thank-you-slide segue nobackground" style="background-image: url(nil)">
+<aside class="gdbar right"><img src="images/elixir.png"></aside><article class="flexbox vleft auto-fadein" id="text-">
+<h2>
+  <p>Gracias ˊ・ω・ˋ</p>
+</h2>
+<br>
+<p class="auto-fadein" data-config-contact>
+</p>
+</article>
+
+</slide>
+<slide class="backdrop"></slide>
+</slides> 
+<!--[if IE]>
+  <script src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+  <script>CFInstall.check({mode: 'overlay'});</script>
+<![endif]-->
+</body> 
+
+</html>

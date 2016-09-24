@@ -1,0 +1,338 @@
+#+TITLE: Backend con Elixir Language y Phoenix Framework
+#+SUBTITLE: Organizando proyectos, Process
+#+AUTHOR: Albert Castellano Moreno
+#+EMAIL: acastemoreno@gmail.com
+#+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:nil ^:t arch:headline
+#+OPTIONS: author:t c:nil creator:comment d:(not "LOGBOOK") date:t
+#+OPTIONS: e:t email:nil f:t inline:t num:nil p:nil pri:nil stat:t
+#+OPTIONS: tags:t tasks:t tex:t timestamp:t toc:nil todo:t |:t
+#+CREATOR: Emacs 24.4.1 (Org mode 8.2.10)
+#+DESCRIPTION:
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS:
+#+LANGUAGE: es
+#+SELECT_TAGS: export
+
+#+GITHUB: http://github.com/acastemoreno
+
+#+FAVICON: images/elixir.png
+#+ICON: images/elixir.png
+#+HASHTAG: #elixir #makerlab #AmiguitoEsMiPastorNadaMeFaltara
+
+* Lema de 3ra Session en adelante
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END: 
+** 
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 650px
+[[file:images/redo.jpg]]
+#+END_CENTER
+
+* Contenido
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+
+** 
+- Mix
+  + Introduccion a Mix
+  + Demo: Mix Project and Mix Tasks
+- Programación Concurrente <3
+  + Trabajando multiples procesos
+
+* Mix
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+
+** Qué es Mix?
+Mix es una herramienta que mediante linea de comandos maneja projectos Elixir. 
+
+Mix es usado para crear nuevos proyectos, manejar dependencias, ejecutar pruebas, ejecutar tu proyecto.
+
+** Demo
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+Creamos nuestro primer proyecto Elixir usando el comando =mix new holi=
+
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 450px
+[[file:images/new_project.png]]
+#+END_CENTER
+
+** 
+Ahora observamos la siguiente estructura de archivos:
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 250px
+[[file:images/folder.png]]
+#+END_CENTER
+
+** Estructura
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+- =README.md=: Archivo Markdown que es usado para indicar requisitos y procedimientos para cuando otras personas usen nuestro proyecto, en especial cuando publiquemos nuestro proyecto como libreria.
+- =mix.exs=: Archivo que define el nombre de nuestro proyecto, la version, las dependencias, las librerias que funcionaran en su propio proceso, etc.
+- =.gitignore=: Archivo usado para manejar que archivos no seran trackeados por git (control de versiones).
+- Carpeta =test=: Contendra codigo util para hacer testing.
+- Carpeta "lib": Contendra la mayoria del codigo de nuestra aplicación.
+  + Archivo =holi.ex=: Archivo con el nombre de nuestro proyecto. Modulo que representa nuestra aplicación.
+- Carpeta =config=: Contiene configuraciones de nuestra aplicación.
+** Holi Woli
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+Elixir tiene una convención. Dentro de la carpeta =/lib=, debes crear otra carpeta con el mismo nombre del proyecto. Aqui escribiremos nuestro codigo. El archivo =holi.exs= nos servira cuando trabajemos con OTP. 
+
+Por tanto en la carpeta =lib/holi/= crearemos nuestro primer modulo junto con una función:
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 550px
+[[file:images/holi.png]]
+#+END_CENTER
+** 
+Cargamos nuestro proyecto a iex para poder usarlo dentro de la shell con el comando =iex -S mix=
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 550px
+[[file:images/iex_-S_mix.png]]
+#+END_CENTER
+Observamos que adicional al clasico inicio de sesion, iex nos informa que se compilaron 2 archivos y que se genero la aplicacion holi.
+Ahora, al ejecutar la función =Holi.Woli.saludo=, este devolvera un string =Hola Amiguitos xD=. Ademas notaremos que se creo una carpeta =build= donde estaran todos los archivos compilados de nuestra aplicación.
+
+** Librerias
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+Visitamos [[https://hex.pm/]] y buscamos una libreria que nos permita hacer peticiones http.
+
+Encontramos la libreria =httpoison= y seguimos las instrucciones dadas para instalar la libreria.
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 550px
+[[file:images/httpoison.png]]
+#+END_CENTER
+** 
+Descargamos la libreria con el siguiente comando =mix deps.get=
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 500px
+[[file:images/mix_deps_get.png]]
+#+END_CENTER
+
+** 
+Revisamos documentación de Github para obtener los [[https://developer.github.com/v3/issues/#list-issues-for-a-repository][issues de un repo]], el requisito obligatorio de [[https://developer.github.com/v3/#user-agent-required][indicar quien esta haciendo la petición]] y la documentación de [[https://hexdocs.pm/httpoison/HTTPoison.html#get/3][Httpoison]] para crear el siguiente codigo:
+#+BEGIN_SRC elixir
+#lib/holi/github.ex
+defmodule Holi.Github do
+  def issues do
+    "https://api.github.com/repos/phoenixframework/phoenix/issues"
+        |> HTTPoison.get([{"User-agent", "Albert Castellano acastemoreno@gmail.com"}])
+  end
+end
+#+END_SRC
+** 
+Ahora ejecutamos nuevamente =iex -S mix=
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 700px
+[[file:images/iex_-S_mix2.png]]
+#+END_CENTER
+** 
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+Luego, cuando ejecutamos =Holi.Github.issues= nos devuelva una tupla con el clasico =:ok= ó =:error= como primer elemento y una estructura =%HTTPoison.Response{}= como segundo parametro.
+
+Ahora para procesar solo el contenido de los issues modifico mi modulo =Holi.Github= de la siguiente manera:
+#+BEGIN_SRC elixir
+#lib/holi/github.ex
+defmodule Holi.Github do
+  alias HTTPoison.Response
+  alias HTTPoison.Error
+
+  def issues do
+    "https://api.github.com/repos/phoenixframework/phoenix/issues"
+        |> HTTPoison.get([{"User-Agent", "Albert Castellano acastemoreno@gmail.com"}])
+        |> process_response
+  end
+
+  defp process_response ({:ok, %Response{status_code: 200, body: body}}) do
+    {:ok, body}
+  end
+
+  defp process_response ({:error, %Error{reason: atomo}}) do
+    {:error, atomo}
+  end
+end
+#+END_SRC
+** 
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+Ahora voy a procesar esa respuesta (notese que =body= es un texto que representa un json). Busco una libreria para procesar =json=, encuentro [[https://github.com/devinus/poison][poison]] para luego instalar tal como nos indicia su documentación.
+#+BEGIN_SRC elixir
+#lib/holi/github.ex
+defmodule Holi.Github do
+  alias HTTPoison.Response
+  alias HTTPoison.Error
+  alias Poison.Parser
+
+  def issues do
+    "https://api.github.com/repos/phoenixframework/phoenix/issues"
+        |> HTTPoison.get([{"User-Agent", "Albert Castellano acastemoreno@gmail.com"}])
+        |> process_response
+  end
+
+  defp process_response ({:ok, %Response{status_code: 200, body: body}}) do
+    Parser.parse!(body)
+    |> Enum.take(4)
+    |> Enum.sort(&(&1["created_at"] <= &2["created_at"]))
+    |> Enum.map(&{&1["created_at"], &1["title"]})
+  end
+
+  defp process_response ({:error, %Error{}}) do
+    raise "Que paso amiguito?"
+  end
+end
+#+END_SRC
+* Programación Concurrente <3
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END: 
+
+** Trabajando con multiples procesos
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+Una de las carateristica claves de ELixir es la idea de empaquetar codigo en pequeños trozos tal que cada uno sera ejecutado de forma independiente y simultanea.Para otros lenguajes convencionales espamear multiples procesos es tedioso y muchas veces con un castigo en la eficiencia.
+
+Elixir no tiene este problema, gracias a la arquitectura BEAM (the Erlang Virtual Machine)
+
+Elixir usa el modelo actor para concurrencia. Un actor es un proceso independiente que no comparte estado alguno con otros procesos. Con los procesos se pueden espamear nuevos procesos, mandar y recibir mensajes a otros procesos.
+
+=NOTA=: Cuando hablamos de procesos en Elixir, no estamos hablando de procesos del sistema operativo nativo. Estos procesos son demasiado lentos y voluminosos. En su lugar, Elixir utiliza el soporte de procesos en Erlang. EStos procesos se ejecutaran a través de todas las CPUs (al igual que los procesos nativos), pero con muy poca sobrecarga. Veremos que sera sencillo crear miles de millones de procesos en una modesta computadora.
+** Spaunear proceso
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+Escribimos el siguiente codigo:
+#+BEGIN_SRC elixir
+#lib/holi/proceso_basico.ex
+defmodule Holi.ProcesoBasico do
+  def mensaje do
+    IO.puts "Holi Woli"
+  end
+end
+#+END_SRC
+Cargamos nuevamente en iex nuestro proyecto con =iex -S mix=. Luego creamos un nuevo procesode la siguiente manera:
+#+BEGIN_SRC elixir
+iex> spawn(Holi.ProcesoBasico, :mensaje, [])
+Holi Woli
+#PID<0.179.0>
+#+END_SRC
+La función spawn retorna un =PID=. =PID= es un identificar unico para cada proceso dentro de nuestra aplicación.
+** 
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+Vamos a crear 2 modulos, uno que se encarga de enviar mensajes y otro que se encarga de responder a este mensaje.
+#+BEGIN_SRC elixir
+#lib/holi/proceso1.ex
+defmodule Holi.Proceso1 do
+  alias Holi.Proceso2
+
+  def ping do
+    pid = spawn(Proceso2, :pong, [])
+    send pid, {self, "Albert!"}
+    receive do
+      {:ok, mensaje} -> IO.puts mensaje
+    end
+  end
+end
+
+#lib/holi/proceso2.ex
+defmodule Holi.Proceso2 do
+  def pong do
+    receive do
+      {remitente, mensaje} ->
+        send remitente, {:ok, "Holi Amiguit@: #{mensaje}"}
+    end
+  end
+end
+#+END_SRC
+** 
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+Que pasa si modificamos el modulo 1 para que envie un nuevo mensaje al proceso creado.
+#+BEGIN_SRC elixir
+#lib/holi/proceso1.ex
+defmodule Holi.Proceso1 do
+  alias Holi.Proceso2
+
+  def ping(amiguito) do
+    pid = spawn(Proceso2, :pong, [])
+    send pid, {self, amiguito}
+    receive do
+      {:ok, mensaje} -> IO.puts mensaje
+    end
+    send pid, {self, "Otra persona!"}
+    receive do
+      {:ok, mensaje} -> IO.puts mensaje
+    end
+  end
+end
+#+END_SRC
+Ejecutamos =Holi.Proceso1.ping("Albert")= y observamos que muestra un primer mensaje pero se queda estancado en ese punto. Lo que pasa es que una vez procesado el =receive= en el proceso, este termina. Por eso el proceso principal se queda esperando a un proceso que nunca retorna valor alguno.
+** 
+Modificamos para crear un =timeout= (teclea =h=)
+#+BEGIN_SRC elixir
+#lib/holi/proceso1.ex
+defmodule Holi.Proceso1 do
+  alias Holi.Proceso2
+
+  def ping(amiguito) do
+    pid = spawn(Proceso2, :pong, [])
+    send pid, {self, amiguito}
+    receive do
+      {:ok, mensaje} -> IO.puts mensaje
+    end
+    send pid, {self, "Otra persona!"}
+    receive do
+      {:ok, mensaje} -> IO.puts mensaje
+      <b>after 500 -> IO.puts "Despues de 500 ms, Que paso amiguito?"</b>
+    end
+  end
+end
+#+END_SRC
+** 
+Fue una chapuza lo del timeout, resolvamos lo anterior de la manera correcta:
+
+#+BEGIN_SRC elixir
+#lib/holi/proceso2.ex
+defmodule Holi.Proceso2 do
+  def pong do
+    receive do
+      {remitente, mensaje} ->
+        send remitente, {:ok, "Holi Amiguit@: #{mensaje}"}
+        pong
+    end
+  end
+end
+#+END_SRC
+
+Llamada Recursiva, Tail Optimization <3
+
+
+* Gracias ˊ・ω・ˋ
+  :PROPERTIES:
+  :SLIDE: thank-you-slide segue
+  :ASIDE: right
+  :ARTICLE: flexbox vleft auto-fadein
+  :END:
