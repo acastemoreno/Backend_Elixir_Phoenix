@@ -1,0 +1,487 @@
+#+TITLE: Backend con Elixir Language y Phoenix Framework
+#+SUBTITLE: OTP, Genserver, Supervisor, Plug y Phoenix
+#+AUTHOR: Albert Castellano Moreno
+#+EMAIL: acastemoreno@gmail.com
+#+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:nil ^:t arch:headline
+#+OPTIONS: author:t c:nil creator:comment d:(not "LOGBOOK") date:t
+#+OPTIONS: e:t email:nil f:t inline:t num:nil p:nil pri:nil stat:t
+#+OPTIONS: tags:t tasks:t tex:t timestamp:t toc:nil todo:t |:t
+#+CREATOR: Emacs 24.4.1 (Org mode 8.2.10)
+#+DESCRIPTION:
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS:
+#+LANGUAGE: es
+#+SELECT_TAGS: export
+
+#+GITHUB: http://github.com/acastemoreno
+
+#+FAVICON: images/elixir.png
+#+ICON: images/elixir.png
+#+HASHTAG: #elixir #makerlab #AmiguitoEsMiPastorNadaMeFaltara
+
+* Contenido
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+
+** Contenido
+- OTP
+  + Genserver
+  + Supervisor
+  + Application
+- Plug
+- Phoenix
+
+* Open Telephony Protocol (OTP)
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+
+** Qué es OTP?
+Es un framework de Erlang creado para construir sistemas distribuidos.
+
+Inicialmente se utilizó para construir centrales telefónicas y conmutadores.
+
+Sin embargo, estos dispositivos tienen las mismas caracteristicas que queremos para crear grandes aplicaciones online, asi que ahora OTP es una herramienta de proposito general para desarrollar y manejar grandes sistemas.
+
+** OTP: Application
+OTP define sistemas en terminos de jerarquias de aplicaciones. 
+
+#+BEGIN_QUOTE
+一In OTP, application denotes a component implementing some specific functionality, that can be started and stopped as a unit, and which can be re-used in other systems as well.
+
+      -- OTP Documentation
+#+END_QUOTE
+Una aplicacion consiste en uno o más procesos. Cada uno de los procesos sigue uno de las pocas convenciones de OTP llamadas =behaviors=. Hay un =behavior= para implementar servidores de proposito general, otro para manejar eventos, etc.
+
+* Proyectos Mix son OTP Apps
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+
+
+* Behavior GenServer
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+  Procesos que tienen estados y a los cuales se les hace consultas.
+
+** GenServer
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+Por terminal, nos ubicamos en una carpeta (en mi caso sera =dev=) y ejecutamos =mix new secuencia=.
+
+Se creara un proyecto mix. Ingresamos a la siguiente ruta =secuencia/lib= para crear una nueva carpeta con nombre =secuencia=.
+
+En esta carpeta creada escribiremos el siguiente codigo:
+#+BEGIN_SRC elixir
+#lib/secuencia/servidor_generico.ex
+defmodule Secuencia.ServidorGenerico do
+  use GenServer
+
+  def handle_call(:siguiente_numero, _from, estado_actual) do
+    { :reply, estado_actual, estado_actual + 1 }
+  end
+end
+#+END_SRC
+
+** GenServer
+=handle_call= recibe 3 parametros:
+- la informacion enviada por el cliente como primer parametro.
+- el PID del cliente como segundo parametro
+- el actual estado del servidor como tercer parametro
+
+y devuelve una tupla con el siguiente contenido:
+- =:reply= como primer elemento indica a OTP que se dara una respuesta al cliente
+- la respuesta al cliente es el segundo elemento de la tupla
+- el nuevo estado del servidor como tercer elemento
+
+** What? Esto que hace?
+Ejecutemos: 
+#+BEGIN_SRC elixir
+$ iex -S mix
+iex> { :ok, pid } = GenServer.start_link(Secuencia.ServidorGenerico, 100)
+{:ok,#PID<0.71.0>}
+iex> GenServer.call(pid, :siguiente_numero)
+100
+iex> GenServer.call(pid, :siguiente_numero)
+101
+iex> GenServer.call(pid, :siguiente_numero)
+102
+#+END_SRC
+
+** Ahora quiero que pasen cosas y que GenServer no responda
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+#+BEGIN_SRC elixir
+#lib/secuencia/servidor_generico.ex
+defmodule Secuencia.ServidorGenerico do
+  use GenServer
+
+  def handle_call(:siguiente_numero, _from, estado_actual) do
+    { :reply, estado_actual, estado_actual + 1 }
+  end
+
+  <b>def handle_cast({:incrementar_estado, delta}, estado_actual) do
+    { :noreply, estado_actual + delta}
+  end</b>
+end
+#+END_SRC
+=handle_cast= recibe 2 parametros: la información enviada por el cliente y el estado actual. Retorna una tupla que contiene =:noreply= como primer elemento que indica que no es necesario respuesta alguna y como segundo elemento el nuevo estado del servidor.
+
+** Probamos
+#+BEGIN_SRC elixir
+## Recompilamos
+iex> r Secuencia.ServidorGenerico
+...........
+iex> { :ok, pid } = GenServer.start_link(Secuencia.ServidorGenerico, 100)
+{:ok,#PID<0.60.0>}
+iex> GenServer.call(pid, :siguiente_numero)
+100
+iex> GenServer.call(pid, :siguiente_numero)
+101
+iex> GenServer.cast(pid, {:incrementar_estado, 200})
+:ok
+iex> GenServer.call(pid, :siguiente_numero)
+302
+#+END_SRC
+
+** 
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+#+BEGIN_SRC elixir
+#lib/secuencia/servidor_generico.ex
+defmodule Secuencia.ServidorGenerico do
+  use GenServer
+  
+  <b>def start_link(estado_inicial) do
+    GenServer.start_link(__MODULE__, estado_inicial, name: __MODULE__)
+  end
+
+  def siguiente_numero do
+    GenServer.call __MODULE__, :siguiente_numero
+  end
+
+  def incrementar_estado(delta) do
+    GenServer.cast __MODULE__, {:incrementar_estado, delta}
+  end</b>
+  
+  def handle_call(:siguiente_numero, _from, estado_actual) do
+    { :reply, estado_actual, estado_actual + 1 }
+  end
+
+  def handle_cast({:incrementar_estado, delta}, estado_actual) do
+    { :noreply, estado_actual + delta}
+  end
+end
+#+END_SRC
+
+** Probamos la API creada
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+#+BEGIN_SRC elixir
+$ iex -S mix
+iex> Secuencia.ServidorGenerico.start_link 123
+{:ok,#PID<0.57.0>}
+iex> Secuencia.ServidorGenerico.siguiente_numero
+123
+iex> Secuencia.ServidorGenerico.siguiente_numero
+124
+iex> Secuencia.ServidorGenerico.incrementar_estado 100
+:ok
+iex> Secuencia.ServidorGenerico.siguiente_numero
+225
+iex> Secuencia.ServidorGenerico.incrementar_estado "holi"
+<b>##El proceso muere y no se recupera</b>
+#+END_SRC
+
+* Behavior Supervisor
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+  No te preocupes mucho del codigo que genera fallos, preocupate que la aplicación siga funcionando.
+
+** Generando una aplicación supervisora
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+Ejecutamos el siguiente comando =mix new --sup super= y abrimos el archivo =/super/lib/super.ex=
+#+BEGIN_SRC elixir
+defmodule Super do
+  use Application
+
+  # See http://elixir-lang.org/docs/stable/elixir/Application.html
+  # for more information on OTP Applications
+  def start(_type, _args) do
+    import Supervisor.Spec, warn: false
+
+    # Define workers and child supervisors to be supervised
+    children = [
+      # Starts a worker by calling: Super.Worker.start_link(arg1, arg2, arg3)
+      # worker(Super.Worker, [arg1, arg2, arg3]),
+    ]
+
+    # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
+    # for other strategies and supported options
+    opts = [strategy: :one_for_one, name: Super.Supervisor]
+    Supervisor.start_link(children, opts)
+  end
+end
+#+END_SRC
+** 
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+Creamos el archivo =lib/super/servidor_generico.ex=, =similar= a lo hecho en genserver.
+#+BEGIN_SRC elixir
+defmodule <b>Super</b>.ServidorGenerico do
+  use GenServer
+  
+  def start_link(estado_inicial) do
+    GenServer.start_link(__MODULE__, estado_inicial, name: __MODULE__)
+  end
+
+  def siguiente_numero do
+    GenServer.call __MODULE__, :siguiente_numero
+  end
+
+  def incrementar_estado(delta) do
+    GenServer.cast __MODULE__, {:incrementar_estado, delta}
+  end
+  
+  def handle_call(:siguiente_numero, _from, estado_actual) do
+    { :reply, estado_actual, estado_actual + 1 }
+  end
+
+  def handle_cast({:incrementar_estado, delta}, estado_actual) do
+    { :noreply, estado_actual + delta}
+  end
+end
+#+END_SRC
+** 
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+Modificamos =/super/lib/super.ex= para que inicie =servidor_generico=
+#+BEGIN_SRC elixir
+defmodule Super do
+  use Application
+
+  # See http://elixir-lang.org/docs/stable/elixir/Application.html
+  # for more information on OTP Applications
+  def start(_type, _args) do
+    import Supervisor.Spec, warn: false
+
+    # Define workers and child supervisors to be supervised
+    children = [
+      # Starts a worker by calling: Super.Worker.start_link(arg1, arg2, arg3)
+      # worker(Super.Worker, [arg1, arg2, arg3]),
+      <b>worker(Super.ServidorGenerico, [123])</b>
+    ]
+
+    # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
+    # for other strategies and supported options
+    opts = [strategy: :one_for_one, name: Super.Supervisor]
+    Supervisor.start_link(children, opts)
+  end
+end
+#+END_SRC
+** Listo, ya tenemos todo listo para ejecutar
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+#+BEGIN_SRC elixir
+$ iex -S mix
+iex(1)> Super.ServidorGenerico.siguiente_numero    
+123
+iex(2)> Super.ServidorGenerico.siguiente_numero
+124
+iex(3)> Super.ServidorGenerico.incrementar_estado 10
+:ok
+iex(4)> Super.ServidorGenerico.siguiente_numero     
+135
+iex(5)> Super.ServidorGenerico.incrementar_estado "holi"
+##El procesos muere pero renace
+iex(6)> Super.ServidorGenerico.siguiente_numero         
+123
+#+END_SRC
+Ups. EL proceso fallece y se recupera pero el estado no se mantiene.
+** Manteniendo estados entre reinicios
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 350px
+[[file:images/super.png]]
+#+END_CENTER
+Fuente: Esta en el libro "programming-elixir 1.2" (pag 221).
+** 
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+Creo el modulo encargado de manejar el estado ante fallas.
+#+BEGIN_SRC elixir
+#/super/lib/super/estado.ex
+defmodule Super.Estado do
+  use GenServer
+  #####
+  # API Externa
+  def start_link(estado_inicial) do
+    GenServer.start_link(__MODULE__, estado_inicial, name: __MODULE__)
+  end
+  def guardar_estado(nuevo_valor) do
+    GenServer.cast __MODULE__, {:guardar_estado, nuevo_valor}
+  end
+  def obtener_estado(pid) do
+    GenServer.call __MODULE__, :obtener_estado
+  end
+  #####
+  # Implementacion GenServer
+  def handle_call(:obtener_estado, _from, estado_actual) do
+    {:reply, estado_actual, estado_actual}
+  end
+  def handle_cast({:guardar_estado, nuevo_valor}, _estado_actual) do
+    {:noreply, nuevo_valor}
+  end
+end
+#+END_SRC
+** Creo un =sub_supervisor=
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+#+BEGIN_SRC elixir
+#/super/lib/super/sub_supervisor.ex
+defmodule Super.SubSupervisor do
+  use Supervisor
+
+  def start_link() do
+    Supervisor.start_link(__MODULE__, [], name: __MODULE__)
+  end
+
+  def init([]) do
+    children = [
+      worker(Super.SubSupervisor.ServidorGenerico, [])
+    ]
+
+    # supervise/2 is imported from Supervisor.Spec
+    supervise(children, strategy: :one_for_one)
+  end
+end
+#+END_SRC
+** 
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+#+BEGIN_SRC elixir
+#/super/lib/super/sub_supervisor/servidor_generico.ex
+defmodule Super.SubSupervisor.ServidorGenerico do
+  use GenServer
+  def start_link() do
+    GenServer.start_link(__MODULE__, [], name: __MODULE__)
+  end
+  <b>def init([]) do
+    {:ok, Super.Estado.obtener_estado()}
+  end</b>
+  def siguiente_numero do
+    GenServer.call __MODULE__, :siguiente_numero
+  end
+  def incrementar_estado(delta) do
+    GenServer.cast __MODULE__, {:incrementar_estado, delta}
+  end
+  def handle_call(:siguiente_numero, _from, estado_actual) do
+    { :reply, estado_actual, estado_actual + 1 }
+  end
+  def handle_cast({:incrementar_estado, delta}, estado_actual) do
+    { :noreply, estado_actual + delta}
+  end
+  <b>def terminate(_reason, estado_antes_de_fallo) do
+    Super.Estado.guardar_estado(estado_antes_de_fallo)
+  end</b>
+end
+#+END_SRC
+** 
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+Añado los procesos =sub_supervisor= y =estado= a la aplicación:
+#+BEGIN_SRC elixir
+#/super/lib/super.ex
+defmodule Super do
+  use Application
+
+  # See http://elixir-lang.org/docs/stable/elixir/Application.html
+  # for more information on OTP Applications
+  def start(_type, _args) do
+    import Supervisor.Spec, warn: false
+
+    # Define workers and child supervisors to be supervised
+    children = [
+      # Starts a worker by calling: Super.Worker.start_link(arg1, arg2, arg3)
+      # worker(Super.Worker, [arg1, arg2, arg3]),
+      <b>worker(Super.Estado, [123]),
+      supervisor(Super.SubSupervisor, [])</b>
+    ]
+
+    # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
+    # for other strategies and supported options
+    opts = [strategy: :one_for_one, name: Super.Supervisor]
+    Supervisor.start_link(children, opts)
+  end
+end
+#+END_SRC
+
+** Ejecuto (se mantiene el estado aun con la falla)
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+#+BEGIN_SRC elixir
+iex(1)> Super.SubSupervisor.ServidorGenerico.siguiente_numero
+123
+iex(2)> Super.SubSupervisor.ServidorGenerico.siguiente_numero
+124
+iex(3)> Super.SubSupervisor.ServidorGenerico.siguiente_numero
+125
+iex(4)> Super.SubSupervisor.ServidorGenerico.incrementar_estado 7
+:ok
+iex(5)> Super.SubSupervisor.ServidorGenerico.siguiente_numero    
+133
+iex(6)> Super.SubSupervisor.ServidorGenerico.incrementar_estado "holi"
+##El procesos muere pero renace
+iex(7)> Super.SubSupervisor.ServidorGenerico.siguiente_numero         
+134
+iex(8)> :observer.start
+#+END_SRC
+** <3
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 750px
+[[file:images/observer.png]]
+#+END_CENTER
+Joe Armstrong dice OTP se ha utilizado para construir sistemas con 99.9999999% de fiabilidad. Eso son nueve nueves. Cool.
+
+* [[https://github.com/acastemoreno/OTP_Elixir_Example_Makerlab][Codigo en Github]]
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+
+* Gracias ˊ・ω・ˋ
+  :PROPERTIES:
+  :SLIDE: thank-you-slide segue
+  :ASIDE: right
+  :ARTICLE: flexbox vleft auto-fadein
+  :END:
