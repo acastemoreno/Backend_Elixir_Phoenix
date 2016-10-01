@@ -30,7 +30,6 @@
 - OTP
   + Genserver
   + Supervisor
-  + Application
 - Plug
 - Phoenix
 
@@ -479,6 +478,156 @@ Joe Armstrong dice OTP se ha utilizado para construir sistemas con 99.9999999% d
   :ARTICLE:  flexbox vleft auto-fadein
   :END:
 
+* Plug
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+  microframework.
+  Phoenix esta hecho en base a plug
+** Comó funciona Plug?
+Visitar una URL es como llamar a una función.
+#+BEGIN_SRC http
+http://  www.example.com   /    about-us         ?ref=google
+   |             |                 |                 |
+Protocol   Nombre de App   Nombre de Función     Argumentos
+#+END_SRC
+** 
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 200px
+[[file:images/plug.png]]
+#+END_CENTER
+** Request http
+#+BEGIN_SRC http
+GET /about-us HTTP/1.1
+Host: www.example.com
+Connection: keep-alive
+Cache-Control: max-age=0
+Accept: text/html,application/xhtml+xml...
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh;...
+Accept-Encoding: gzip, deflate, sdch
+Accept-Language: en-US,en;q=0.8
+#+END_SRC
+** Plug Convierte esta data en
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+#+BEGIN_SRC elixir
+%Plug.Conn{
+  host: "www.example.com",
+  method: "GET",
+  path_info: ["about-us"],
+  request_path: "/about-us",
+  port: 80,
+  remote_ip: 127.0.0.1,
+  req_headers: [
+    {"accept", "text/html,application/xhtml+xml..."},
+    {"upgrade-insecure-requests", 1},
+    {"user-agent", "Mozilla/5.0 (Macintosh;..."},
+    {"accept-encoding", "gzip, deflate, sdch"},
+    {"accept-language", "en-US,en;q=0.8"},
+  ],
+  scheme: :http,
+  # ...
+}
+#+END_SRC
+** 
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 550px
+[[file:images/plug_flujo.png]]
+#+END_CENTER
+Plugs son funciones que toman un =conn= y retornan un =conn=
+** Demo
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+Ejecutamos el comando =mix new probando_plug= y añadimos las siguientes librerias a nuestro proyecto.
+#+BEGIN_SRC elixir
+#mix.exs
+def deps do
+  [{:cowboy, "~> 1.0.0"},
+   {:plug, "~> 1.0"}]
+end
+#+END_SRC
+declaramos tambien las aplicaciones otp que usaremos
+#+BEGIN_SRC elixir
+#mix.exs
+def application do
+  [applications: [:logger, :cowboy, :plug]]
+end
+#+END_SRC
+** 
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+Para descargar las librerias usamos =mix deps.get= para luego crear el siguiente modulo
+#+BEGIN_SRC elixir
+#/lib/probando_plug.ex
+defmodule ProbandoPlug do
+  import Plug.Conn
+
+  def init(options), do: options
+
+  def call(conn, _opts) do
+    conn
+    |> put_resp_content_type("text/plain")
+    |> send_resp(200, "Hola Amiguitos")
+  end
+end
+#+END_SRC
+Ejecutamos de la siguiente manera:
+
+#+BEGIN_SRC elixir
+# iex -S mix
+iex> {:ok, _} = Plug.Adapters.Cowboy.http ProbandoPlug, []
+{:ok, #PID<0.175.0>}
+#+END_SRC
+Ahora revisa la pagina [[http://localhost:4000/]]
+** 
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+Es necesario más de un plug:
+#+BEGIN_SRC elixir
+#/lib/probando_plug.ex
+defmodule ProbandoPlug do
+  use Plug.Router
+
+  plug :match
+  plug :dispatch
+
+  get "/holi" do
+    conn
+    |> put_resp_content_type("text/plain")
+    |> send_resp(200, "Holi Woli")
+  end
+
+  match _ do
+    send_resp(conn, 404, "Not Found")
+  end
+end
+#+END_SRC
+#+BEGIN_SRC elixir
+$ iex -S mix
+iex> {:ok, _} = Plug.Adapters.Cowboy.http ProbandoPlug, []
+{:ok, #PID<0.175.0>}
+#+END_SRC
+* Plug + OTP = Phoenix <3
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+  Plug es 10% más rapido que Phoenix. Concidera usarlo si necesitas la maxima velocidad posible.
+
+** 
+[[https://gist.github.com/omnibs/e5e72b31e6bd25caf39a][Comparative Benchmark Numbers @ Rackspace <3]]
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 550px
+[[file:images/Benchmark.png]]
+#+END_CENTER
 * Gracias ˊ・ω・ˋ
   :PROPERTIES:
   :SLIDE: thank-you-slide segue

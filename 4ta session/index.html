@@ -2,7 +2,7 @@
 <html>
 <head>
 <title></title>
-<!-- 2016-10-01 sáb 04:40 -->
+<!-- 2016-10-01 sáb 05:45 -->
 <meta  charset="utf-8" />
 <meta  htto-equiv="X-UA-Compatible" content="chrome=1" />
 <meta  name="generator" content="Org-mode with org-ioslide" />
@@ -64,7 +64,6 @@
 <ul>
 <li>Genserver</li>
 <li>Supervisor</li>
-<li>Application</li>
 </ul></li>
 <li>Plug</li>
 <li>Phoenix</li>
@@ -923,6 +922,355 @@ Joe Armstrong dice OTP se ha utilizado para construir sistemas con 99.9999999% d
 
 </slide>
 
+</slide>
+<slide id="sec-" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/elixir.png"></aside><hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline36" class="outline-2">
+<h2 id="orgheadline36">Plug</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-">
+<p>
+microframework.
+Phoenix esta hecho en base a plug
+</p>
+
+
+</article>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline28" class="outline-3">
+<h3 id="orgheadline28">Comó funciona Plug?</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<p>
+Visitar una URL es como llamar a una función.
+</p>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="http">
+http://  www.example.com   /    about-us         ?ref=google
+   |             |                 |                 |
+Protocol   Nombre de App   Nombre de Función     Argumentos
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline29" class="outline-3">
+<h3 id="orgheadline29"></h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="images/plug.png" alt="plug.png" width="200px" />
+</p>
+</div>
+</article>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline30" class="outline-3">
+<h3 id="orgheadline30">Request http</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="http">
+GET /about-us HTTP/1.1
+Host: www.example.com
+Connection: keep-alive
+Cache-Control: max-age=0
+Accept: text/html,application/xhtml+xml...
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh;...
+Accept-Encoding: gzip, deflate, sdch
+Accept-Language: en-US,en;q=0.8
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline31" class="outline-3">
+<h3 id="orgheadline31">Plug Convierte esta data en</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="smaller" id="text-">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+%Plug.Conn{
+  host: "www.example.com",
+  method: "GET",
+  path_info: ["about-us"],
+  request_path: "/about-us",
+  port: 80,
+  remote_ip: 127.0.0.1,
+  req_headers: [
+    {"accept", "text/html,application/xhtml+xml..."},
+    {"upgrade-insecure-requests", 1},
+    {"user-agent", "Mozilla/5.0 (Macintosh;..."},
+    {"accept-encoding", "gzip, deflate, sdch"},
+    {"accept-language", "en-US,en;q=0.8"},
+  ],
+  scheme: :http,
+  # ...
+}
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline32" class="outline-3">
+<h3 id="orgheadline32"></h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="images/plug_flujo.png" alt="plug_flujo.png" width="550px" />
+</p>
+</div>
+</article>
+<p>
+Plugs son funciones que toman un <code>conn</code> y retornan un <code>conn</code>
+</p>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline33" class="outline-3">
+<h3 id="orgheadline33">Demo</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="smaller" id="text-">
+<p>
+Ejecutamos el comando <code>mix new probando_plug</code> y añadimos las siguientes librerias a nuestro proyecto.
+</p>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+#mix.exs
+def deps do
+  [{:cowboy, "~&gt; 1.0.0"},
+   {:plug, "~&gt; 1.0"}]
+end
+</pre>
+
+</div>
+<p>
+declaramos tambien las aplicaciones otp que usaremos
+</p>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+#mix.exs
+def application do
+  [applications: [:logger, :cowboy, :plug]]
+end
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline34" class="outline-3">
+<h3 id="orgheadline34"></h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="smaller" id="text-">
+<p>
+Para descargar las librerias usamos <code>mix deps.get</code> para luego crear el siguiente modulo
+</p>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+#/lib/probando_plug.ex
+defmodule ProbandoPlug do
+  import Plug.Conn
+
+  def init(options), do: options
+
+  def call(conn, _opts) do
+    conn
+    |&gt; put_resp_content_type("text/plain")
+    |&gt; send_resp(200, "Hola Amiguitos")
+  end
+end
+</pre>
+
+</div>
+<p>
+Ejecutamos de la siguiente manera:
+</p>
+
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+# iex -S mix
+iex&gt; {:ok, _} = Plug.Adapters.Cowboy.http ProbandoPlug, []
+{:ok, #PID&lt;0.175.0&gt;}
+</pre>
+
+</div>
+<p>
+Ahora revisa la pagina <a href="http://localhost:4000/">http://localhost:4000/</a>
+</p>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline35" class="outline-3">
+<h3 id="orgheadline35"></h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="smaller" id="text-">
+<p>
+Es necesario más de un plug:
+</p>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+#/lib/probando_plug.ex
+defmodule ProbandoPlug do
+  use Plug.Router
+
+  plug :match
+  plug :dispatch
+
+  get "/holi" do
+    conn
+    |&gt; put_resp_content_type("text/plain")
+    |&gt; send_resp(200, "Holi Woli")
+  end
+
+  match _ do
+    send_resp(conn, 404, "Not Found")
+  end
+end
+</pre>
+
+</div>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+$ iex -S mix
+iex&gt; {:ok, _} = Plug.Adapters.Cowboy.http ProbandoPlug, []
+{:ok, #PID&lt;0.175.0&gt;}
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+</slide>
+<slide id="sec-" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/elixir.png"></aside><hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline38" class="outline-2">
+<h2 id="orgheadline38">Plug + OTP = Phoenix &lt;3</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-">
+<p>
+Plug es 10% más rapido que Phoenix. Concidera usarlo si necesitas la maxima velocidad posible.
+</p>
+
+
+</article>
+
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline37" class="outline-3">
+<h3 id="orgheadline37">&lt;3</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<p>
+<a href="https://gist.github.com/omnibs/e5e72b31e6bd25caf39a">Comparative Benchmark Numbers @ Rackspace</a>
+</p>
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="images/Benchmark.png" alt="Benchmark.png" width="550px" />
+</p>
+</div>
+</article>
+
+
+</article>
+
+</slide>
+
+</slide>
 </slide>
 <slide id="sec-" class=" thank-you-slide segue nobackground" style="background-image: url(nil)">
 <aside class="gdbar right"><img src="images/elixir.png"></aside><article class="flexbox vleft auto-fadein" id="text-">
