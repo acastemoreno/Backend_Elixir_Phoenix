@@ -628,6 +628,29 @@ iex> {:ok, _} = Plug.Adapters.Cowboy.http ProbandoPlug, []
 #+ATTR_HTML: :width 550px
 [[file:images/Benchmark.png]]
 #+END_CENTER
+* Phoenix <3
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+** Instalación
+:PROPERTIES:
+:ARTICLE:  smaller
+:END:
+[[http://www.phoenixframework.org/docs/installation][Requerimientos]]:
+- Elixir
+- PostgreSql
+- Node (se encargara de contruir archivo estaticos, es bueno para eso)
+#+BEGIN_SRC cmd
+$ mix local.hex
+$ mix archive.install https://github.com/phoenixframework/archives/raw/master/phoenix_new.ez
+# Creando nuevo proyecto
+$ mix phoenix.new hello_phoenix
+$ cd hello_phoenix
+$ mix phoenix.server
+# Enjoy localhost:4000
+#+END_SRC
 * Gracias ˊ・ω・ˋ
   :PROPERTIES:
   :SLIDE: thank-you-slide segue
