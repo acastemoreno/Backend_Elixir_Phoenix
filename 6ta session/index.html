@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<!-- 2016-10-22 sáb 00:59 -->
+<meta  charset="utf-8" />
+<meta  htto-equiv="X-UA-Compatible" content="chrome=1" />
+<meta  name="generator" content="Org-mode with org-ioslide" />
+<meta  name="author" content="Albert Castellano Moreno" />
+
+
+<!--<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">-->
+<!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--This one seems to work all the time, but really small on ipad-->
+<!--<meta name="viewport" content="initial-scale=0.4">-->
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<link rel="stylesheet" media="all" href="theme/css/default.css" />
+<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="theme/css/phone.css" />
+<link rel="stylesheet" media="all" href="theme/css/small-icon.css" />
+<base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+<script data-main="js/slides" src="js/require-1.0.8.min.js"></script>
+
+   <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
+
+<script src="js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML,local/local" type="text/javascript"></script>
+</head>
+<body style="opacity: 0">
+<slides class="layout-widescreen">
+<slide class="title-slide segue nobackground">
+       <aside class="gdbar"><img src="images/phoenix.svg"></aside>
+       <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+       <hgroup class="auto-fadein">
+         <h1 data-config-title><!-- populated from slide_config.json --></h1>
+         <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+         <p data-config-presenter><!-- populated from slide_config.json --></p>
+       </hgroup>
+    </slide>
+  <slide id="sec-" class="fill white nobackground" style="background-image: url(images/phoenix.gif)">
+<hgroup class="">
+       <h2 class="white "><div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1"></h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/phoenix.svg"></aside><hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline3" class="outline-2">
+<h2 id="orgheadline3">Contenido</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-">
+
+
+</article>
+
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline2" class="outline-3">
+<h3 id="orgheadline2">Contenido</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li>Recap 5ta session</li>
+<li>Ecto</li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+
+</slide>
+<slide id="sec-" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/phoenix.svg"></aside><hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline8" class="outline-2">
+<h2 id="orgheadline8">Recap 5ta session</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-">
+
+
+</article>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline4" class="outline-3">
+<h3 id="orgheadline4">Endpoint</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="images/endpoint.png" alt="endpoint.png" width="220px" />
+</p>
+</div>
+</article>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline5" class="outline-3">
+<h3 id="orgheadline5">Router</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<p>
+<code>holi/web/router.ex</code>
+</p>
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="images/router.png" alt="router.png" width="400px" />
+</p>
+</div>
+</article>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline6" class="outline-3">
+<h3 id="orgheadline6">View</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+##holi/web/views/page_view.ex
+defmodule Holi.PageView do
+  use Holi.Web, :view
+end
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline7" class="outline-3">
+<h3 id="orgheadline7">Template</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="html">
+##holi/web/templates/page/saludo.html.eex
+&lt;h2&gt;Saludo a: &lt;%= @amiguito %&gt;&lt;/h2&gt;
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+</slide>
+<slide id="sec-" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/phoenix.svg"></aside><hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline15" class="outline-2">
+<h2 id="orgheadline15">Ecto</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-">
+
+
+</article>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline9" class="outline-3">
+<h3 id="orgheadline9">Qué es Ecto?</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<blockquote>
+<p>
+Ecto is a domain specific Language for writing queries and interacting with databases in Elixir.
+</p>
+</blockquote>
+<p>
+Ecto interactua con determinadas bases de datos <code>SQL</code> and <code>NoSql</code>, ninguna de estas hecha en Erlang.
+</p>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline10" class="outline-3">
+<h3 id="orgheadline10">Erlang Databases.</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li>ETS: ="Erlang Term Storage"<code>. Similar en cierto modo a =NoSql</code>, pero se diferencia en guardar terminos Erlang.<sup>1</sup></li>
+<li>Mnesia: Base de datos hibrido Relational/Object optimizado para alta disponibilidad.</li>
+</ul>
+
+<footer class="source">
+<p class="footpara">1. 
+En particular conciderar ETS en vez de un NoSQl
+</p>
+</footer>
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline11" class="outline-3">
+<h3 id="orgheadline11">Creando usuario de base de datos</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li>Me conecto a la base de datos (importante recordar la contraseña del superusuaario establecido al intalar postgresql)</li>
+<li>Click derecho en <code>Login/Group Roles</code> para luego |&gt; <code>Create</code> |&gt; <code>Login ...</code></li>
+</ul>
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="images/click_derecho.png" alt="click_derecho.png" width="400px" />
+</p>
+</div>
+</article>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline12" class="outline-3">
+<h3 id="orgheadline12"></h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li>Asignamos un nombre al usuario (en este caso <code>holi_dev</code>) con una contraseña en <code>definition|&gt;password</code> y nos aseguramos que tenga los siguientes privilegios:</li>
+</ul>
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="images/privilegios.png" alt="privilegios.png" width="350px" />
+</p>
+</div>
+</article>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline13" class="outline-3">
+<h3 id="orgheadline13">Configurando la base de datos en development</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+##holi/config/dev.exs
+...
+config :holi, Holi.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  username: "holi_dev",
+  password: "123456789",
+  database: "holi_dev",
+  hostname: "localhost",
+  pool_size: 10
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline14" class="outline-3">
+<h3 id="orgheadline14">Creando la base de datos</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<p>
+Para crear la base de datos ejecutamos <code>mix ecto.create</code>
+</p>
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="images/ecto.create.png" alt="ecto.create.png" width="600px" />
+</p>
+</div>
+</article>
+
+
+</article>
+
+</slide>
+
+</slide>
+</slide>
+<slide id="sec-" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/phoenix.svg"></aside><hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline18" class="outline-2">
+<h2 id="orgheadline18">Repo</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-">
+
+
+</article>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline16" class="outline-3">
+<h3 id="orgheadline16">Patron del Repo</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="images/patron_repo.png" alt="patron_repo.png" width="400px" />
+</p>
+</div>
+</article>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline17" class="outline-3">
+<h3 id="orgheadline17">Patron de un ORM</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="images/patron_orm.png" alt="patron_orm.png" width="500px" />
+</p>
+</div>
+</article>
+
+
+</article>
+
+</slide>
+
+</slide>
+</slide>
+<slide id="sec-" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/phoenix.svg"></aside><hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline20" class="outline-2">
+<h2 id="orgheadline20">ECTO NO ES UN ORM</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-">
+
+
+</article>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline19" class="outline-3">
+<h3 id="orgheadline19">El Repo ya esta definido</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+## holi/lib/holi/repo.ex
+defmodule Holi.Repo do
+  use Ecto.Repo, otp_app: :holi
+end
+</pre>
+
+</div>
+<p>
+En pasos previos, para crear la base de datos tuvimos que configurar a <code>Holi.Repo</code>.
+</p>
+
+
+</article>
+
+</slide>
+
+</slide>
+</slide>
+<slide id="sec-" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/phoenix.svg"></aside><hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline23" class="outline-2">
+<h2 id="orgheadline23">Fundamentos de Base de datos Relacionales</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-">
+
+
+</article>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline21" class="outline-3">
+<h3 id="orgheadline21">Like spreadsheet</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="smaller" id="text-">
+<p>
+Posts:
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="right">id</td>
+<td class="left"><code>author_id</code></td>
+<td class="left">titulo</td>
+<td class="left">body</td>
+</tr>
+
+<tr>
+<td class="right">1</td>
+<td class="left highlight">1</td>
+<td class="left">Ecto</td>
+<td class="left">Ecto es un lenguaje de dominio especifico que &#x2026;</td>
+</tr>
+
+<tr>
+<td class="right">2</td>
+<td class="left highlight">1</td>
+<td class="left">Repo</td>
+<td class="left">Repo es el intermediario entre los querys y la base de datos</td>
+</tr>
+</tbody>
+</table>
+<p>
+Autores:
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="left">id</td>
+<td class="left">nombre</td>
+</tr>
+
+<tr>
+<td class="left highlight">1</td>
+<td class="left">Albert Castellano Moreno</td>
+</tr>
+</tbody>
+</table>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline22" class="outline-3">
+<h3 id="orgheadline22">Tipos de Relaciones</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="images/relations.png" alt="relations.png" width="600px" />
+</p>
+</div>
+</article>
+
+
+</article>
+
+</slide>
+
+</slide>
+</slide>
+<slide id="sec-" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/phoenix.svg"></aside><hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline25" class="outline-2">
+<h2 id="orgheadline25">Funciones del modulo Repo</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-">
+
+
+</article>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline24" class="outline-3">
+<h3 id="orgheadline24">Funciones del modulo Repo</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<p>
+Todas las funciones de <code>Repo</code> toman un <code>Ecto.Queryable</code> como primer argumento:
+</p>
+<ul>
+<li>Modulos <code>Schema</code></li>
+<li>Ecto.Query</li>
+<li>changeset</li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+</slide>
+<slide id="sec-" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/phoenix.svg"></aside><hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline34" class="outline-2">
+<h2 id="orgheadline34">schemas</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-">
+
+
+</article>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline26" class="outline-3">
+<h3 id="orgheadline26">Qué son los <code>Schemas</code>?</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<blockquote>
+<p>
+An Ecto schema is used to map data source into an ELixir struct. One of such use cases is to map data coming from a repository, usually a table, into Elixir structs.
+<span class='float-right'>&#x2013; Ecto Schema Documentation</span><br  />
+</p>
+</blockquote>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline27" class="outline-3">
+<h3 id="orgheadline27">Responsabilidades de un <code>schema</code></h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li>Asignar data de un recurso en una estructura Elixir.</li>
+<li>Validar cambios en la data</li>
+<li>Proveer queries comunes.</li>
+</ul>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline28" class="outline-3">
+<h3 id="orgheadline28"><code>schema</code> ejemplo</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="smaller" id="text-">
+<p>
+Posts:
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="right">id</td>
+<td class="left"><code>author_id</code></td>
+<td class="left">titulo</td>
+<td class="left">body</td>
+</tr>
+
+<tr>
+<td class="right">1</td>
+<td class="left highlight">1</td>
+<td class="left">Ecto</td>
+<td class="left">Ecto es un lenguaje de dominio especifico que &#x2026;</td>
+</tr>
+
+<tr>
+<td class="right">2</td>
+<td class="left highlight">1</td>
+<td class="left">Repo</td>
+<td class="left">Repo es el intermediario entre los querys y la base de datos</td>
+</tr>
+</tbody>
+</table>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+defmodule MyApp.Post do
+    use Ecto.Schema
+
+    schema "posts" do
+        belong_to: :autor, MyApp.Autor
+
+        fields :titulo, :string
+        fields :body, :string
+    end
+end
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline29" class="outline-3">
+<h3 id="orgheadline29"><code>schema</code> ejemplo</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<p>
+Autores:
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="left">id</td>
+<td class="left">nombre</td>
+</tr>
+
+<tr>
+<td class="left highlight">1</td>
+<td class="left">Albert Castellano Moreno</td>
+</tr>
+</tbody>
+</table>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+defmodule MyApp.Autor do
+    schema "authors" do
+        has_many :posts, MyApp.Post
+
+        field :nombre
+    end
+end
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline30" class="outline-3">
+<h3 id="orgheadline30"><a href="https://hexdocs.pm/ecto/Ecto.Schema.html">Tipos de fiel</a></h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li><code>:string</code></li>
+<li><code>:integer</code></li>
+<li><code>:map</code></li>
+<li><code>:binary</code></li>
+<li><code>:float</code></li>
+<li><code>:boolean</code></li>
+</ul>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline31" class="outline-3">
+<h3 id="orgheadline31">Tipos de Relación</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li><code>has_one</code></li>
+<li><code>has_many</code></li>
+<li><code>belong_to</code></li>
+<li><code>many_to_many</code></li>
+</ul>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline32" class="outline-3">
+<h3 id="orgheadline32">Representando datos en estructuras</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+%MyApp.Autor{
+    nombre: "Albert Castellano Moreno"
+    posts: #&lt;Ecto.Association.NotLoaded&gt;
+}
+%MyApp.Post{
+    titulo: "Ecto",
+    body: "Ecto es un lenguaje de dominio especifico que ..",
+    autor: #&lt;Ecto.Association.NotLoaded&gt;
+}
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline33" class="outline-3">
+<h3 id="orgheadline33">Virtual Fields</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+schema "author" do
+    has_many :posts, MyApp.Post
+
+    field :nombre, :string
+    field :autenticado?, :boolean, default: false, virtual: true
+end
+
+##Resulta en la siguiente estructura
+%MyApp.Autor{
+    nombre: "Albert Castellano Moreno",
+    posts: #&lt;Ecto.Association.NotLoaded&gt;,
+    autenticado?: false
+}
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+</slide>
+<slide id="sec-" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/phoenix.svg"></aside><hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline40" class="outline-2">
+<h2 id="orgheadline40">Ecto.Query</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-">
+
+
+</article>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline35" class="outline-3">
+<h3 id="orgheadline35">Query DSL</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+import Ecto.Query, only: [from: 2]
+query =
+  from p in MyApp.Post,
+    where: p.titulo == "Texto Titulo de Post",
+    limit: 2
+# =&gt; %Ecto.Query{...}
+
+## Otra forma de crear el query
+import Ecto,Query, only: [where: 2, limit: 2]
+query =
+  MyApp.Post
+    |&gt; where(titulo: "Texto Titulo de Post")
+    |&gt; limit(2)
+# =&gt; %Ecto.Query{...}
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline36" class="outline-3">
+<h3 id="orgheadline36">Equivalente SQL</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+# Ecto.query
+from p in MyApp.Post,
+    where: p.titulo == "Texto Titulo de Post",
+    limit: 2
+
+# SQL Generado
+SELECT * FROM post p
+WHERE p.title = 'Texto Titulo de Post'
+LIMIT 2
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline37" class="outline-3">
+<h3 id="orgheadline37">Más caracteristicas</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="smaller" id="text-">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+from p in MyApp.Post,
+    where: p.titulo == "Texto Titulo de Post" and p.body == "Texto contenido",
+    limit: 2
+
+## Interpolante Variables
+variable = "Algun texto creado fuera del query"
+from p in MyApp.Post,
+    where: p.titulo == ^variable,
+    limit: 2
+
+## Esquema de menos consultas
+from p in MyApp.Post,
+    where: p.titulo == ^variable,
+    limit 2,
+    select: %{titulo: p.titulo, body: p.body}
+#Ejecutar el query (que veremos en breve) retorna:
+[%{titulo: "Ecto", body: ".........."}]
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline38" class="outline-3">
+<h3 id="orgheadline38">Más caracteristicas</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="smaller" id="text-">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+from p in MyApp.Post,
+    where: p.titulo == ^variable,
+    limit 2,
+    select: {p.titulo, p.body}
+
+from p in MyApp.Post,
+    join: a in assoc(p, :autor),
+    where: p.titulo == ^variable,
+    limit: 2
+    select: {p, a}
+
+from p in MyApp.Post,
+    join: a ins assoc(p, :autor),
+    where: p.titulo == ^variable,
+    limit: 2,
+    preload: [autor: a]
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline39" class="outline-3">
+<h3 id="orgheadline39">QUERY DSL junto con el esquema</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="smaller" id="text-">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+defmodule MyApp.Post do
+    use Ecto.Schema
+
+    # ...
+
+    def reciente do
+        from p in __MODULE__,
+            order_by: [asc: p.inserted_at],
+            limit: 5
+    end
+end
+
+MyApp.Post.reciente()
+# =&gt; %Ecto.Query
+
+## Extendiendo queries
+from p in MyApp.Post.reciente,
+    where: ilike(p.body, "%Ecto%")
+
+MyApp.Post.reciente
+|&gt; where([p], ilike(p.body), "%Ecto%")
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+
+</slide>
+<slide id="sec-" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/phoenix.svg"></aside><hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline44" class="outline-2">
+<h2 id="orgheadline44">Changesets</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-">
+
+
+</article>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline41" class="outline-3">
+<h3 id="orgheadline41">Para que sirven los changeset?</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<p>
+Changesets validan los cambios de un nuevo o existente registro utilizando una serie de cadenas de funciones antes de que sean escritos en en la base de datos.
+</p>
+
+<p>
+Etapa de validacion de datos con elixir.
+</p>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline42" class="outline-3">
+<h3 id="orgheadline42">Changeset ejemplo:</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+defmodule MyApp.Post do
+     use Ecto.Schema
+
+     # ... (definiendo el schema)
+
+     # ... (agregando posible funciones que utilicen Query DSL)
+
+     def changeset(struct, params \\ %{}) do
+         struct
+         |&gt; cast(params, [:titulo, :body])
+         |&gt; validate_required([:titulo, :body])
+     end
+end
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline43" class="outline-3">
+<h3 id="orgheadline43">Explicacion de las funciones usadas por changeset</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="smaller" id="text-">
+<p>
+Funcion <code>cast</code>:
+</p>
+
+<p>
+<code>cast/3</code> convierte una <code>struct</code> y <code>params</code> en un <code>Ecto.Changeset</code>, usando una lista de fields permitidos como filtro.
+</p>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+cast(struct, params, fields_permitidos)
+# =&gt; %Ecto.Changeset{}
+</pre>
+
+</div>
+<p>
+Funcion <code>validate_require</code>:
+</p>
+
+<p>
+Funcion de validación que toma un <code>changeset</code> como primer parametro y una lista de parametros requeridos olbigatoriamente.
+</p>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+validate_required(changeset, fields_obligatorios)
+</pre>
+
+</div>
+<p>
+<a href="https://hexdocs.pm/ecto/Ecto.Changeset.html">Funciones Changeset</a>
+</p>
+<ul>
+<li><code>validate_required</code></li>
+<li>=validate<sub>form</sub></li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+</slide>
+<slide id="sec-" class=" thank-you-slide segue nobackground" style="background-image: url(nil)">
+<aside class="gdbar right"><img src="images/phoenix.svg"></aside><article class="flexbox vleft auto-fadein" id="text-">
+<h2>
+  <p>Gracias ˊ・ω・ˋ</p>
+</h2>
+<br>
+<p class="auto-fadein" data-config-contact>
+</p>
+</article>
+
+</slide>
+<slide class="backdrop"></slide>
+</slides> 
+<!--[if IE]>
+  <script src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+  <script>CFInstall.check({mode: 'overlay'});</script>
+<![endif]-->
+</body> 
+
+</html>

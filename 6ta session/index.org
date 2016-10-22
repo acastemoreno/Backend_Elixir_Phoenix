@@ -1,0 +1,582 @@
+#+TITLE: Backend con Elixir Language y Phoenix Framework
+#+SUBTITLE: Recap 5ta, Ecto, Repo, migrations, Repo
+#+AUTHOR: Albert Castellano Moreno
+#+EMAIL: acastemoreno@gmail.com
+#+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:nil ^:t arch:headline
+#+OPTIONS: author:t c:nil creator:comment d:(not "LOGBOOK") date:t
+#+OPTIONS: e:t email:nil f:t inline:t num:nil p:nil pri:nil stat:t
+#+OPTIONS: tags:t tasks:t tex:t timestamp:t toc:nil todo:t |:t
+#+CREATOR: Emacs 24.4.1 (Org mode 8.2.10)
+#+DESCRIPTION:
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS:
+#+LANGUAGE: es
+#+SELECT_TAGS: export
+
+#+GITHUB: http://github.com/acastemoreno
+
+#+FAVICON: images/phoenix.svg
+#+ICON: images/phoenix.svg
+#+HASHTAG: #phoenix #makerlab #AmiguitoEsMiPastorNadaMeFaltara
+* 
+:PROPERTIES:
+:FILL:   images/phoenix.gif
+:TITLE:    white
+:SLIDE:    white
+:END:
+* Contenido
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+
+** Contenido
+- Recap 5ta session
+- Ecto   
+
+* Recap 5ta session
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+** Endpoint
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 220px
+[[file:images/endpoint.png]]
+#+END_CENTER
+** Router
+=holi/web/router.ex=
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 400px
+[[file:images/router.png]]
+#+END_CENTER
+** View
+#+BEGIN_SRC elixir
+##holi/web/views/page_view.ex
+defmodule Holi.PageView do
+  use Holi.Web, :view
+end
+#+END_SRC
+** Template
+#+BEGIN_SRC html
+##holi/web/templates/page/saludo.html.eex
+<h2>Saludo a: <%= @amiguito %></h2>
+#+END_SRC
+* Ecto
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+** Qué es Ecto?
+#+BEGIN_QUOTE
+Ecto is a domain specific Language for writing queries and interacting with databases in Elixir.
+#+END_QUOTE
+Ecto interactua con determinadas bases de datos =SQL= and =NoSql=, ninguna de estas hecha en Erlang.
+** Erlang Databases.
+- ETS: ="Erlang Term Storage"=. Similar en cierto modo a =NoSql=, pero se diferencia en guardar terminos Erlang.[fn:1]
+- Mnesia: Base de datos hibrido Relational/Object optimizado para alta disponibilidad.
+** Creando usuario de base de datos
+- Me conecto a la base de datos (importante recordar la contraseña del superusuaario establecido al intalar postgresql)
+- Click derecho en =Login/Group Roles= para luego |> =Create= |> =Login ...=
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 400px
+[[file:images/click_derecho.png]]
+#+END_CENTER
+** 
+- Asignamos un nombre al usuario (en este caso =holi_dev=) con una contraseña en =definition|>password= y nos aseguramos que tenga los siguientes privilegios:
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 350px
+[[file:images/privilegios.png]]
+#+END_CENTER
+** Configurando la base de datos en development
+#+BEGIN_SRC elixir
+##holi/config/dev.exs
+...
+config :holi, Holi.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  username: "holi_dev",
+  password: "123456789",
+  database: "holi_dev",
+  hostname: "localhost",
+  pool_size: 10
+#+END_SRC
+** Creando la base de datos
+Para crear la base de datos ejecutamos =mix ecto.create=
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 600px
+[[file:images/ecto.create.png]]
+#+END_CENTER
+* Repo
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+** Patron del Repo
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 400px
+[[file:images/patron_repo.png]]
+#+END_CENTER
+** Patron de un ORM
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 500px
+[[file:images/patron_orm.png]]
+#+END_CENTER
+* ECTO NO ES UN ORM
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+** El Repo ya esta definido
+#+BEGIN_SRC elixir
+## holi/lib/holi/repo.ex
+defmodule Holi.Repo do
+  use Ecto.Repo, otp_app: :holi
+end
+#+END_SRC
+En pasos previos, para crear la base de datos tuvimos que configurar a =Holi.Repo=.
+* Fundamentos de Base de datos Relacionales
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+** Like spreadsheet
+:PROPERTIES:
+:ARTICLE:    smaller
+:END:
+Posts:
+| id | =author_id= | titulo | body                                                         |
+|  1 | * 1         | Ecto   | Ecto es un lenguaje de dominio especifico que ...            |
+|  2 | * 1         | Repo   | Repo es el intermediario entre los querys y la base de datos |
+Autores:
+| id  | nombre                   |
+| * 1 | Albert Castellano Moreno |
+** Tipos de Relaciones
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 600px
+[[file:images/relations.png]]
+#+END_CENTER
+* Funciones del modulo Repo
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+** Funciones del modulo Repo
+Todas las funciones de =Repo= toman un =Ecto.Queryable= como primer argumento:
+- Modulos =Schema=
+- Ecto.Query
+- changeset
+* schemas
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+** Qué son los =Schemas=?
+#+BEGIN_QUOTE
+An Ecto schema is used to map data source into an ELixir struct. One of such use cases is to map data coming from a repository, usually a table, into Elixir structs.
+     -- Ecto Schema Documentation
+#+END_QUOTE
+** Responsabilidades de un =schema=
+- Asignar data de un recurso en una estructura Elixir.
+- Validar cambios en la data
+- Proveer queries comunes.
+** =schema= ejemplo
+:PROPERTIES:
+:ARTICLE:    smaller
+:END:
+Posts:
+| id | =author_id= | titulo | body                                                         |
+|  1 | * 1         | Ecto   | Ecto es un lenguaje de dominio especifico que ...            |
+|  2 | * 1         | Repo   | Repo es el intermediario entre los querys y la base de datos |
+#+BEGIN_SRC elixir
+defmodule MyApp.Post do
+    use Ecto.Schema
+
+    schema "posts" do
+        belong_to: :autor, MyApp.Autor
+        
+        fields :titulo, :string
+        fields :body, :string
+    end
+end
+#+END_SRC
+** =schema= ejemplo
+Autores:
+| id  | nombre                   |
+| * 1 | Albert Castellano Moreno |
+#+BEGIN_SRC elixir
+defmodule MyApp.Autor do
+    schema "authors" do
+        has_many :posts, MyApp.Post
+
+        field :nombre
+    end
+end
+#+END_SRC
+** [[https://hexdocs.pm/ecto/Ecto.Schema.html][Tipos de fiel]]
+- =:string=
+- =:integer=
+- =:map=
+- =:binary=
+- =:float=
+- =:boolean=
+** Tipos de Relación
+- =has_one=
+- =has_many=
+- =belong_to=
+- =many_to_many=
+** Representando datos en estructuras
+#+BEGIN_SRC elixir
+%MyApp.Autor{
+    nombre: "Albert Castellano Moreno"
+    posts: #<Ecto.Association.NotLoaded>
+}
+%MyApp.Post{
+    titulo: "Ecto",
+    body: "Ecto es un lenguaje de dominio especifico que ..",
+    autor: #<Ecto.Association.NotLoaded>
+}
+#+END_SRC
+** Virtual Fields
+#+BEGIN_SRC elixir
+schema "author" do
+    has_many :posts, MyApp.Post
+
+    field :nombre, :string
+    field :autenticado?, :boolean, default: false, virtual: true
+end
+
+##Resulta en la siguiente estructura
+%MyApp.Autor{
+    nombre: "Albert Castellano Moreno",
+    posts: #<Ecto.Association.NotLoaded>,
+    autenticado?: false
+}
+#+END_SRC
+* Ecto.Query
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+** Query DSL
+#+BEGIN_SRC elixir
+import Ecto.Query, only: [from: 2]
+query =
+  from p in MyApp.Post,
+    where: p.titulo == "Texto Titulo de Post",
+    limit: 2
+# => %Ecto.Query{...}
+
+## Otra forma de crear el query
+import Ecto,Query, only: [where: 2, limit: 2]
+query =
+  MyApp.Post
+    |> where(titulo: "Texto Titulo de Post")
+    |> limit(2)
+# => %Ecto.Query{...}
+#+END_SRC
+** Equivalente SQL
+#+BEGIN_SRC elixir
+# Ecto.query
+from p in MyApp.Post,
+    where: p.titulo == "Texto Titulo de Post",
+    limit: 2
+
+# SQL Generado
+SELECT * FROM post p
+WHERE p.title = 'Texto Titulo de Post'
+LIMIT 2
+#+END_SRC
+** Más caracteristicas
+:PROPERTIES:
+:ARTICLE: smaller
+:END:
+#+BEGIN_SRC elixir
+from p in MyApp.Post,
+    where: p.titulo == "Texto Titulo de Post" and p.body == "Texto contenido",
+    limit: 2
+
+## Interpolante Variables
+variable = "Algun texto creado fuera del query"
+from p in MyApp.Post,
+    where: p.titulo == ^variable,
+    limit: 2
+
+## Esquema de menos consultas
+from p in MyApp.Post,
+    where: p.titulo == ^variable,
+    limit 2,
+    select: %{titulo: p.titulo, body: p.body}
+#Ejecutar el query (que veremos en breve) retorna:
+[%{titulo: "Ecto", body: ".........."}]
+#+END_SRC
+** Más caracteristicas
+:PROPERTIES:
+:ARTICLE: smaller
+:END:
+#+BEGIN_SRC elixir
+from p in MyApp.Post,
+    where: p.titulo == ^variable,
+    limit 2,
+    select: {p.titulo, p.body}
+
+from p in MyApp.Post,
+    join: a in assoc(p, :autor),
+    where: p.titulo == ^variable,
+    limit: 2
+    select: {p, a}
+
+from p in MyApp.Post,
+    join: a ins assoc(p, :autor),
+    where: p.titulo == ^variable,
+    limit: 2,
+    preload: [autor: a]
+#+END_SRC
+
+** QUERY DSL junto con el esquema
+:PROPERTIES:
+:ARTICLE: smaller
+:END:
+#+BEGIN_SRC elixir
+defmodule MyApp.Post do
+    use Ecto.Schema
+
+    # ...
+
+    def reciente do
+        from p in __MODULE__,
+            order_by: [asc: p.inserted_at],
+            limit: 5
+    end
+end
+
+MyApp.Post.reciente()
+# => %Ecto.Query
+
+## Extendiendo queries
+from p in MyApp.Post.reciente,
+    where: ilike(p.body, "%Ecto%")
+
+MyApp.Post.reciente
+|> where([p], ilike(p.body), "%Ecto%")
+#+END_SRC
+
+* Changesets
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+** Para que sirven los changeset?
+Changesets validan los cambios de un nuevo o existente registro utilizando una serie de cadenas de funciones antes de que sean escritos en en la base de datos.
+
+Etapa de validacion de datos con elixir.
+** Changeset ejemplo:
+#+BEGIN_SRC elixir
+defmodule MyApp.Post do
+     use Ecto.Schema
+
+     # ... (definiendo el schema)
+
+     # ... (agregando posible funciones que utilicen Query DSL)
+
+     def changeset(struct, params \\ %{}) do
+         struct
+         |> cast(params, [:titulo, :body])
+         |> validate_required([:titulo, :body])
+     end
+end
+#+END_SRC
+** Explicacion de las funciones usadas por changeset
+:PROPERTIES:
+:ARTICLE: smaller
+:END:
+Funcion =cast=:
+
+=cast/3= convierte una =struct= y =params= en un =Ecto.Changeset=, usando una lista de fields permitidos como filtro.
+#+BEGIN_SRC elixir
+cast(struct, params, fields_permitidos)
+# => %Ecto.Changeset{}
+#+END_SRC
+Funcion =validate_require=:
+
+Funcion de validación que toma un =changeset= como primer parametro y una lista de parametros requeridos olbigatoriamente.
+#+BEGIN_SRC elixir
+validate_required(changeset, fields_obligatorios)
+#+END_SRC
+** [[https://hexdocs.pm/ecto/Ecto.Changeset.html][Funciones Changeset]]
+- =validate_required=
+- =validate_form=
+- =validate_change=
+- =validate_length=
+- =validate_number=
+- =validate_subset=
+- =validate_exclusion=
+- =put_change=: Agrega un cambio a los cambios.
+- =delete_change=: Borra un cambio de los cambios.
+- =add_error=: Agrega un error a los errores.
+* Regresamos a funciones del modulo Repo  
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+** Repo.all
+Toma como parametro un =query= o modulo y reporta todos los datos que cumpla la condicion.
+#+BEGIN_SRC elixir
+Repo.all(from p in Post where p.titulo == "Ecto")
+
+Repo.all(Post)
+#+END_SRC
+** Repo.get
+#+BEGIN_SRC elixir
+Repo.get(Post, 1)
+##Devuelve el POst cuyo id es 1, retorna nil si no encontro resultados, provoca un error si encuentre más de un resultado.
+Repo.get!(Post, 1)
+## Devuelve el Post cuyo id es 1, falla la operacion en cualquier otro caso.
+#+END_SRC
+** Repo.get_by
+#+BEGIN_SRC elixir
+Repo.get_by(Post, titulo: "Ecto", body: ".......")
+Repo.get_by!(Post, titulo: "Ecto")
+## Mismo funcionamiento que la funcion get pero aqui se detallan otros parametros de busqueda
+#+END_SRC
+** Repo.one
+Similar a los ateriores con la diferencia de que como parametro recibe un =query=
+** Repo.preload
+#+BEGIN_SRC elixir
+Post
+|> Repo.all
+|> Repo.preload([:author])
+#+END_SRC
+** Repo.aggregate
+- Repo.aggregate(Post, _avg, :visits)
+- Repo.aggregate(Post, :sum, :visits)
+- Repo.aggregate(Post, :max, :visits)
+- Repo.aggregate(Post, :min, :visits)
+- Repo.aggregate(Post, :count, :id)
+** Repo.insert
+#+BEGIN_SRC elixir
+Repo.insert(%Post{titulo: "Ecto"})
+# => {:ok, post}
+
+Repo.insert!(%Ecto.changeset{})
+# => Ecto.InvalidChangesetError
+
+case Repo.insert(changeset) do
+    {:ok, post} ->
+          #Render ok
+    {:error, changeset} ->
+          #Render changeset error
+end
+#+END_SRC
+** Repo.update
+#+BEGIN_SRC elixir
+params = %{titulo: "Nuevo Titulo"} #Quizas eso sale de un formulario
+post = Repo.get(Post, 2)
+changeset = Post.changeset(post, params)
+case Repo.update(changeset) do
+     {:ok, post} ->
+           #Render ok
+     {:error, changeset} ->
+           #Render changeset error
+end
+#+END_SRC
+** Repo.insert_or_update
+#+BEGIN_SRC elixir
+post = Repo.get(Post, 1)
+changeset = Post.changeset(post, %{titulo: "Nuevo Titulo"})
+Repo.insert_or_update(changeset)
+#+END_SRC
+** Repo.delete
+#+BEGIN_SRC elixir
+Repo.delete(post)
+# => {:ok, post}
+#+END_SRC
+
+* Cool, pero
+pero aun no tenemos la base de datos tal como lo describimos en los schemas, asi que
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+* Solucion: Migrations
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+** Qué son =migrations=?
+Migration son scripts usados para modificar el esquema de tu base de datos a través del tiempo.
+** Por qué los =migrations=?
+- Registra cada cambio realizado a la estructura de la base de datos.
+- Asegura que todos desarrollen un proyecto usando la misma base de datos.
+- Actualiza automaticamente los cambios en el entorno de producción.
+- Rollback automaticamente cambios en la estructura.
+** Estructura de un migration
+:PROPERTIES:
+:ARTICLE: smaller
+:END:
+#+BEGIN_SRC elixir
+defmodule Enelproject.Repo.Migrations.CreateLdp1 do
+  use Ecto.Migration
+
+  def change do
+    create table(:ldp1) do
+      add :fecha, :datetime
+      add :canal1, :float
+      add :canal2, :float
+      add :canal3, :float
+      add :canal4, :float
+      add :canal5, :float
+      add :canal6, :float
+
+      add :user_id, references(:users, on_delete: :delete_all)
+
+      timestamps
+    end
+    create index(:ldp1, [:user_id])
+
+  end
+end
+#+END_SRC
+** Explicacion de funciones
+- =change=: maneja automaticamente las migraciones y los rollback que se detallen dentro de la funcion.
+- =create table(:ldp1)=: Crea la tabla =lp1= en la base de datos con su contenido
+- =add=: agrega una columna a la tabla con un nombre y tipo de datos guardado
+Otras funciones:
+- =alter table(:ldp1)=: funcion que modifica a la tabla =ldp1=
+- =remove=: elimina una columna
+- =rename=: cambia de nombre a una columna
+- =modify=: modifica una columna (cambia el tiempo de dato que se guarda en la columna)
+* Aplicación Practica
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+** Comando con proposito educativo
+Ejecuta el siguiente codigo: =mix phoenix.gen.html User users name:string email:string bio:string number_of_pets:integer=
+Luego ejecuta: =mix ecto.migrate=
+Ejercicio:
+- Explica el contenido de la carpeta =holi/lib/priv/repo/migrations=
+- Explica el contenido de la carpeta =holi/web/models=
+- Explica a grandes razgos que cada funcion del archivo =holi/web/controllers/user_controller.ex=
+* Gracias ˊ・ω・ˋ
+  :PROPERTIES:
+  :SLIDE: thank-you-slide segue
+  :ASIDE: right
+  :ARTICLE: flexbox vleft auto-fadein
+  :END:
+* Footnotes
+
+[fn:1] En particular conciderar ETS en vez de un NoSQl
