@@ -2,7 +2,7 @@
 <html>
 <head>
 <title></title>
-<!-- 2016-10-22 sáb 00:59 -->
+<!-- 2016-10-22 sáb 18:53 -->
 <meta  charset="utf-8" />
 <meta  htto-equiv="X-UA-Compatible" content="chrome=1" />
 <meta  name="generator" content="Org-mode with org-ioslide" />
@@ -1101,8 +1101,8 @@ MyApp.Post.reciente
 </slide>
 <slide id="sec-" class=" segue dark quote nobackground" style="background-image: url(nil)">
 <aside class="gdbar right bottom"><img src="images/phoenix.svg"></aside><hgroup class="">
-       <h2 class=" "><div id="outline-container-orgheadline44" class="outline-2">
-<h2 id="orgheadline44">Changesets</h2>
+       <h2 class=" "><div id="outline-container-orgheadline45" class="outline-2">
+<h2 id="orgheadline45">Changesets</h2>
 </div>
 </h2>
        <h3></h3>
@@ -1206,12 +1206,486 @@ validate_required(changeset, fields_obligatorios)
 </pre>
 
 </div>
-<p>
-<a href="https://hexdocs.pm/ecto/Ecto.Changeset.html">Funciones Changeset</a>
-</p>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline44" class="outline-3">
+<h3 id="orgheadline44"><a href="https://hexdocs.pm/ecto/Ecto.Changeset.html">Funciones Changeset</a></h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
 <ul>
 <li><code>validate_required</code></li>
-<li>=validate<sub>form</sub></li>
+<li><code>validate_form</code></li>
+<li><code>validate_change</code></li>
+<li><code>validate_length</code></li>
+<li><code>validate_number</code></li>
+<li><code>validate_subset</code></li>
+<li><code>validate_exclusion</code></li>
+<li><code>put_change</code>: Agrega un cambio a los cambios.</li>
+<li><code>delete_change</code>: Borra un cambio de los cambios.</li>
+<li><code>add_error</code>: Agrega un error a los errores.</li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+</slide>
+<slide id="sec-" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/phoenix.svg"></aside><hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline56" class="outline-2">
+<h2 id="orgheadline56">Regresamos a funciones del modulo Repo</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-">
+
+
+</article>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline46" class="outline-3">
+<h3 id="orgheadline46">Repo.all</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<p>
+Toma como parametro un <code>query</code> o modulo y reporta todos los datos que cumpla la condicion.
+</p>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+Repo.all(from p in Post where p.titulo == "Ecto")
+
+Repo.all(Post)
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline47" class="outline-3">
+<h3 id="orgheadline47">Repo.get</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+Repo.get(Post, 1)
+##Devuelve el POst cuyo id es 1, retorna nil si no encontro resultados, provoca un error si encuentre más de un resultado.
+Repo.get!(Post, 1)
+## Devuelve el Post cuyo id es 1, falla la operacion en cualquier otro caso.
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline48" class="outline-3">
+<h3 id="orgheadline48">Repo.get<sub>by</sub></h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+Repo.get_by(Post, titulo: "Ecto", body: ".......")
+Repo.get_by!(Post, titulo: "Ecto")
+## Mismo funcionamiento que la funcion get pero aqui se detallan otros parametros de busqueda
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline49" class="outline-3">
+<h3 id="orgheadline49">Repo.one</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<p>
+Similar a los ateriores con la diferencia de que como parametro recibe un <code>query</code>
+</p>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline50" class="outline-3">
+<h3 id="orgheadline50">Repo.preload</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+Post
+|&gt; Repo.all
+|&gt; Repo.preload([:author])
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline51" class="outline-3">
+<h3 id="orgheadline51">Repo.aggregate</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li>Repo.aggregate(Post, _avg, :visits)</li>
+<li>Repo.aggregate(Post, :sum, :visits)</li>
+<li>Repo.aggregate(Post, :max, :visits)</li>
+<li>Repo.aggregate(Post, :min, :visits)</li>
+<li>Repo.aggregate(Post, :count, :id)</li>
+</ul>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline52" class="outline-3">
+<h3 id="orgheadline52">Repo.insert</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+Repo.insert(%Post{titulo: "Ecto"})
+# =&gt; {:ok, post}
+
+Repo.insert!(%Ecto.changeset{})
+# =&gt; Ecto.InvalidChangesetError
+
+case Repo.insert(changeset) do
+    {:ok, post} -&gt;
+          #Render ok
+    {:error, changeset} -&gt;
+          #Render changeset error
+end
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline53" class="outline-3">
+<h3 id="orgheadline53">Repo.update</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+params = %{titulo: "Nuevo Titulo"} #Quizas eso sale de un formulario
+post = Repo.get(Post, 2)
+changeset = Post.changeset(post, params)
+case Repo.update(changeset) do
+     {:ok, post} -&gt;
+           #Render ok
+     {:error, changeset} -&gt;
+           #Render changeset error
+end
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline54" class="outline-3">
+<h3 id="orgheadline54">Repo.insert<sub>or</sub><sub>update</sub></h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+post = Repo.get(Post, 1)
+changeset = Post.changeset(post, %{titulo: "Nuevo Titulo"})
+Repo.insert_or_update(changeset)
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline55" class="outline-3">
+<h3 id="orgheadline55">Repo.delete</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+Repo.delete(post)
+# =&gt; {:ok, post}
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline57" class="outline-2">
+<h2 id="orgheadline57">Cool, pero</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<p>
+pero aun no tenemos la base de datos tal como lo describimos en los schemas, asi que
+</p>
+<p>
+:SLIDE:    segue dark quote
+:ASIDE:    right bottom
+:ARTICLE:  flexbox vleft auto-fadein
+</p>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/phoenix.svg"></aside><hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline62" class="outline-2">
+<h2 id="orgheadline62">Solucion: Migrations</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-">
+
+
+</article>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline58" class="outline-3">
+<h3 id="orgheadline58">Qué son <code>migrations</code>?</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<p>
+Migration son scripts usados para modificar el esquema de tu base de datos a través del tiempo.
+</p>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline59" class="outline-3">
+<h3 id="orgheadline59">Por qué los <code>migrations</code>?</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li>Registra cada cambio realizado a la estructura de la base de datos.</li>
+<li>Asegura que todos desarrollen un proyecto usando la misma base de datos.</li>
+<li>Actualiza automaticamente los cambios en el entorno de producción.</li>
+<li>Rollback automaticamente cambios en la estructura.</li>
+</ul>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline60" class="outline-3">
+<h3 id="orgheadline60">Estructura de un migration</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="smaller" id="text-">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+defmodule Enelproject.Repo.Migrations.CreateLdp1 do
+  use Ecto.Migration
+
+  def change do
+    create table(:ldp1) do
+      add :fecha, :datetime
+      add :canal1, :float
+      add :canal2, :float
+      add :canal3, :float
+      add :canal4, :float
+      add :canal5, :float
+      add :canal6, :float
+
+      add :user_id, references(:users, on_delete: :delete_all)
+
+      timestamps
+    end
+    create index(:ldp1, [:user_id])
+
+  end
+end
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline61" class="outline-3">
+<h3 id="orgheadline61">Explicacion de funciones</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<ul>
+<li><code>change</code>: maneja automaticamente las migraciones y los rollback que se detallen dentro de la funcion.</li>
+<li><code>create table(:ldp1)</code>: Crea la tabla <code>lp1</code> en la base de datos con su contenido</li>
+<li><code>add</code>: agrega una columna a la tabla con un nombre y tipo de datos guardado</li>
+</ul>
+<p>
+Otras funciones:
+</p>
+<ul>
+<li><code>alter table(:ldp1)</code>: funcion que modifica a la tabla <code>ldp1</code></li>
+<li><code>remove</code>: elimina una columna</li>
+<li><code>rename</code>: cambia de nombre a una columna</li>
+<li><code>modify</code>: modifica una columna (cambia el tiempo de dato que se guarda en la columna)</li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+</slide>
+<slide id="sec-" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/phoenix.svg"></aside><hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline64" class="outline-2">
+<h2 id="orgheadline64">Aplicación Practica</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-">
+
+
+</article>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline63" class="outline-3">
+<h3 id="orgheadline63">Comando con proposito educativo</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<p>
+Ejecuta el siguiente codigo: <code>mix phoenix.gen.html User users name:string email:string bio:string number_of_pets:integer</code>
+Luego ejecuta: <code>mix ecto.migrate</code>
+Ejercicio:
+</p>
+<ul>
+<li>Explica el contenido de la carpeta <code>holi/lib/priv/repo/migrations</code></li>
+<li>Explica el contenido de la carpeta <code>holi/web/models</code></li>
+<li>Explica a grandes razgos que cada funcion del archivo <code>holi/web/controllers/user_controller.ex</code></li>
 </ul>
 
 
