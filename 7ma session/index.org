@@ -1,0 +1,274 @@
+#+TITLE: Backend con Elixir Language y Phoenix Framework
+#+SUBTITLE: Authentication and Authorization
+#+AUTHOR: Albert Castellano Moreno
+#+EMAIL: acastemoreno@gmail.com
+#+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:nil ^:t arch:headline
+#+OPTIONS: author:t c:nil creator:comment d:(not "LOGBOOK") date:t
+#+OPTIONS: e:t email:nil f:t inline:t num:nil p:nil pri:nil stat:t
+#+OPTIONS: tags:t tasks:t tex:t timestamp:t toc:nil todo:t |:t
+#+CREATOR: Emacs 24.4.1 (Org mode 8.2.10)
+#+DESCRIPTION:
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS:
+#+LANGUAGE: es
+#+SELECT_TAGS: export
+
+#+GITHUB: http://github.com/acastemoreno
+
+#+FAVICON: images/phoenix.svg
+#+ICON: images/phoenix.svg
+#+HASHTAG: #phoenix #makerlab #AmiguitoEsMiPastorNadaMeFaltara
+* 
+:PROPERTIES:
+:FILL:   images/phoenix.gif
+:TITLE:    white
+:SLIDE:    white
+:END:
+* Contenido
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+
+** Contenido
+- Authentication
+- Authorization  
+
+* Authentication
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+** Qué es Authentication?
+Es el proceso por el cual el usuario se identifica ante la aplicación.
+
+Para este proceso usaremos la siguiente libreria [[https://github.com/ueberauth/ueberauth][Ueberauth]], que es un sistema de autenticacion basado en plug
+** Conceptos de Ueberauth
+- Strategies: Son =plugs= que decoran o interceptan (o ambos) requests. Las estrategias implementan 2 fases.
+- Request Phase: Es la fase donde se solicita información sobre el usuario. Esto puede suceder mediante una redireccion a un sistema OAuth2(Facebook, Twitter, github, ...) o un formulario.
+- Callback Phase: Esta fase es donde ocurre la magia. Una vez que el =request phase= ha sido completado, el =provider= (facebook, twitter, github, ...) llamara a un url Callback enviando la información del usuario.
+** Avancemos un poco
+:PROPERTIES:
+:ARTICLE:    smaller
+:END:
+- Creamos un proyecto, con el siguiente comando: =mix phoenix.new septima=
+- Ingresamos a pgadmin, creamos un usuario con contraseña y solo con los privilegios para loguearse y para crear base de datos. (En mi caso sera usuario: septima_dev, contraseña: 123456789)
+- Ingresamos a =septima/config/dev.exs= y configuramos ecto con el usuario y contraseña creados.
+- Creamos una base de datos con =mix ecto.create=
+Basicamente pasos basicos para no tener problemas con mensaje de error por conexion a base de datos.
+** 
+Ahora teniendo una cuenta github entramos al siguiente [[https://github.com/settings/developers][link]] para registrar nuestra aplicación ante github.
+Es importante que los campos para =Homepage URL= y =Authorization callback URL= sean igual a la imagen. Se explicara más adelante la razón.
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 400px
+[[file:images/github_app_OAuth.png]]
+#+END_CENTER
+** 
+:PROPERTIES:
+:ARTICLE:    smaller
+:END:
+Una vez registrada nuestra aplicación ante gihub, tomaremos nota de la siguiente información sensible =Client ID= y =Client Secret=
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 400px
+[[file:images/datos_github.png]]
+#+END_CENTER
+Es importante que esta información sea bien guardada por motivos de seguridad.
+** 
+:PROPERTIES:
+:ARTICLE:    smaller
+:END:
+- Ahora agregamos =ueberauth= a nuestra dependencias en =mix.exs=:
+#+BEGIN_SRC elixir
+def deps do
+  [<b>{:ueberauth_github, "~> 0.4"}</b>]
+end
+#+END_SRC
+- Registramos la estrategia =github= como aplicación en =mix.exs=:
+#+BEGIN_SRC elixir
+def application do
+  [applications: [<b>:ueberauth_github</b>]]
+end
+#+END_SRC
+- Al hacer lo anterior la dependencia y aplicacion =ueberauth= tambien ha sido registrada (forma parte de las librerias y aplicaciones de =ueberauth_github=). Dicho esto necesitamos configurar =ueberauth= agregando el siguiente codigo a =/config/config.exs=
+#+BEGIN_SRC elixir
+config :ueberauth, Ueberauth,
+  providers: [
+    github: {Ueberauth.Strategy.Github, []}
+  ]
+#+END_SRC
+** 
+:PROPERTIES:
+:ARTICLE:    smaller
+:END:
+- al final del archivo =config/dev.exs= agregamos el siguiente codigo:
+#+BEGIN_SRC elixir
+import_config "dev.secret.exs"
+#+END_SRC
+- creamos el archivo =config/dev.secret.exs= con el siguiente codigo reemplazando los valores correspondientes a =cliente_id= y =client_secret=:
+#+BEGIN_SRC elixir
+use Mix.Config
+
+config :ueberauth, Ueberauth.Strategy.Github.OAuth,
+  client_id: "holi, soy un texto que representa el cliente_id, reemplazame :v",
+  client_secret: "holi, soy un texto que representa el client_secret, reemplazame :v"
+#+END_SRC
+- finalmente modificamos el archivo =.gitignore= añadiendo la siguiente linea al final:
+#+BEGIN_SRC elixir
+...
+/config/prod.secret.exs
+<b>/config/dev.secret.exs</b>
+#+END_SRC
+Todo esto para asegurarnos de que no subamos por accidente información sensible a github.
+** 
+:PROPERTIES:
+:ARTICLE:    smaller
+:END:
+- Modificamos =web/router.exs= de la siguiente manera:
+#+BEGIN_SRC elixir
+defmodule Septima.Router do
+  use Septima.Web, :router
+
+  ...
+
+  scope "/", Septima do
+    pipe_through :browser # Use the default browser stack
+
+    get "/", PageController, :index
+  end
+
+  <b>scope "/auth", Septima do
+    pipe_through :browser
+
+    get "/:provider", AuthController, :request
+    get "/:provider/callback", AuthController, :callback
+  end</b>
+  # Other scopes may use custom stacks.
+  # scope "/api", Septima do
+  #   pipe_through :api
+  # end
+end
+#+END_SRC
+** 
+:PROPERTIES:
+:ARTICLE:    smaller
+:END:
+Creamos un archivo =web/controllers/auth_controller.ex=
+#+BEGIN_SRC elixir
+defmodule Septima.AuthController do
+  use Septima.Web, :controller
+  plug Ueberauth
+
+  def request(conn, _params) do
+    text conn, "Holi, no debo aparecer"
+  end
+
+  def callback(%{assigns: %{ueberauth_failure: _fails}} = conn, _params) do
+    conn
+    |> put_flash(:error, "Fallo en la authenticacion.")
+    |> redirect(to: "/")
+  end
+
+  def callback(%{assigns: %{ueberauth_auth: _auth}} = conn, _params) do
+    text conn, "Holi, el callback recibio mi información"
+  end
+end
+#+END_SRC
+** Finalmente <3
+- Reemplazamos el contenido del archivo =web/templates/page/index.html.eex= por el siguiente codigo:
+#+BEGIN_SRC elixir
+<div class="jumbotron">
+  <h2>Login por Ueberauth</h2>
+  <p class="lead"><%= link "Login with Github", to: auth_path(@conn, :request, "github")
+  , class: "btn btn-success text-center" %></p>
+</div>
+#+END_SRC
+- Ejecutamos =mix deps.get=
+- Ejecutamos =mix compile=
+- Ejecutamos =mix phoenix.server=
+** Resultado
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 700px
+[[file:images/github1.png]]
+#+END_CENTER
+** 
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 700px
+[[file:images/github2.png]]
+#+END_CENTER
+** 
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 900px
+[[file:images/github3.png]]
+#+END_CENTER
+** Lets work with databases
+:PROPERTIES:
+:ARTICLE:    smaller
+:END:
+- Ejecutamos =mix phoenix.gen.model User users nombre:string email:string is_admin:boolean=
+- Ejecutamos =mix phoenix.gen.model Authorization authorizations provider:string uid:string token:string refresh_token:string expired_at:integer  user_id:references:users=
+- Ejecutamos las migraciones con =mix ecto.migrate=
+- Modificamos el archivo =/models/user.ex=:
+#+BEGIN_SRC elixir
+  schema "users" do
+    ...
+
+    <b>has_many :authorizations, Septima.Authorization</b>
+
+    timestamps
+  end
+#+END_SRC
+** 
+:PROPERTIES:
+:ARTICLE:    smaller
+:END:
+- Modificamos el archivo =/models/user.ex= (quitamos =:refresh_token= y =:expires_at= de la funcion =validate_required=):
+#+BEGIN_SRC elixir
+  schema "authorizations" do
+    ...
+    field :expires_at, :integer
+    <b>field :password, :string, virtual: true
+    field :password_confirmation, :string, virtual: true</b>
+
+    belongs_to :user, Septima.User
+
+    timestamps
+  end
+
+  @doc """
+  Builds a changeset based on the `struct` and `params`.
+  """
+  def changeset(struct, params \\ %{}) do
+    struct
+    |> cast(params, [:provider, :uid, :token, :refresh_token, :expired_at])
+    |> validate_required([:provider, :uid, :token])
+  end
+#+END_SRC
+** 
+:PROPERTIES:
+:ARTICLE:    smaller
+:END:
+- Ahora agregamos =comeonin= a nuestra dependencias en =mix.exs=:
+#+BEGIN_SRC elixir
+def deps do
+  [<b>{:comeonin, "~> 2.5"}</b>]
+end
+#+END_SRC
+- Registramos la estrategia =comeonin= como aplicación en =mix.exs=:
+#+BEGIN_SRC elixir
+def application do
+  [applications: [<b>:comeonin</b>]]
+end
+#+END_SRC
+- Ejecutamos =mix deps.get=
+- Creamos la carpeta =web/auth= y en esta creamos el archivo =user_from_auth.ex= con el siguiente [[][contenido]]
+
+* Gracias ˊ・ω・ˋ
+  :PROPERTIES:
+  :SLIDE: thank-you-slide segue
+  :ASIDE: right
+  :ARTICLE: flexbox vleft auto-fadein
+  :END:
+* Footnotes
+[fn:1] En particular conciderar ETS en vez de un NoSQl
