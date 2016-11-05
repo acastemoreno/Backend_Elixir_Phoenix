@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<!-- 2016-11-05 sáb 07:14 -->
+<meta  charset="utf-8" />
+<meta  htto-equiv="X-UA-Compatible" content="chrome=1" />
+<meta  name="generator" content="Org-mode with org-ioslide" />
+<meta  name="author" content="Albert Castellano Moreno" />
+
+
+<!--<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">-->
+<!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--This one seems to work all the time, but really small on ipad-->
+<!--<meta name="viewport" content="initial-scale=0.4">-->
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<link rel="stylesheet" media="all" href="theme/css/default.css" />
+<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="theme/css/phone.css" />
+<link rel="stylesheet" media="all" href="theme/css/small-icon.css" />
+<base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+<script data-main="js/slides" src="js/require-1.0.8.min.js"></script>
+
+   <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
+
+<script src="js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML,local/local" type="text/javascript"></script>
+</head>
+<body style="opacity: 0">
+<slides class="layout-widescreen">
+<slide class="title-slide segue nobackground">
+       <aside class="gdbar"><img src="images/phoenix.svg"></aside>
+       <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+       <hgroup class="auto-fadein">
+         <h1 data-config-title><!-- populated from slide_config.json --></h1>
+         <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+         <p data-config-presenter><!-- populated from slide_config.json --></p>
+       </hgroup>
+    </slide>
+  <slide id="sec-" class="fill white nobackground" style="background-image: url(images/phoenix.gif)">
+<hgroup class="">
+       <h2 class="white "><div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1"></h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/phoenix.svg"></aside><hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline9" class="outline-2">
+<h2 id="orgheadline9">Digitalocean</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-">
+
+
+</article>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline2" class="outline-3">
+<h3 id="orgheadline2">Creando droplet</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="smaller" id="text-">
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="images/create_droplet1.png" alt="create_droplet1.png" width="700px" />
+</p>
+</div>
+</article>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline3" class="outline-3">
+<h3 id="orgheadline3">Creando droplet</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="smaller" id="text-">
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="images/create_droplet2.png" alt="create_droplet2.png" width="600px" />
+</p>
+</div>
+</article>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline4" class="outline-3">
+<h3 id="orgheadline4">Contraseña de droplet</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="smaller" id="text-">
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="images/create_droplet3.png" alt="create_droplet3.png" width="600px" />
+</p>
+</div>
+</article>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline5" class="outline-3">
+<h3 id="orgheadline5">Loguandome al servidor</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="smaller" id="text-">
+<p>
+Mediante consola
+</p>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="cmd">
+$ ssh root@104.131.79.101
+### Me pedira contraseña (ademas de pedirme cambiarla)
+$ sudo locale-gen "en_US.UTF-8"
+$ sudo apt-get update &amp;&amp; upgrade
+$ sudo apt-get install postgresql postgresql-contrib
+##Ahora me logueo como usuario postgres
+$ sudo su - postgres
+##Accedo a la consola de postgres
+$ psql
+##Creo el usuario, contraseña y privilegios
+postgres=# CREATE USER "proyecto_prod" WITH PASSWORD '123456';
+postgres=# ALTER USER "proyecto_prod" CREATEDB LOGIN;
+postgres=# \q
+$ exit
+$ vim /etc/postgresql/9.5/main/postgresql.conf
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline6" class="outline-3">
+<h3 id="orgheadline6"></h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="smaller" id="text-">
+<p>
+Modifico el archivo tal como se muestra (:wq es guardar y salir):
+</p>
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="images/config_postgresql1.png" alt="config_postgresql1.png" width="600px" />
+</p>
+</div>
+</article>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline7" class="outline-3">
+<h3 id="orgheadline7"></h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="smaller" id="text-">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="cmd">
+$ vim /etc/postgresql/9.5/main/pg_hba.conf
+</pre>
+
+</div>
+<p>
+Busco mi ip en un navegador para tener presente
+</p>
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="images/config_postgresql2.png" alt="config_postgresql2.png" width="650px" />
+</p>
+</div>
+</article>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline8" class="outline-3">
+<h3 id="orgheadline8">Agrego mi ip a la configuración</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="images/config_postgresql3.png" alt="config_postgresql3.png" width="400px" />
+</p>
+</div>
+</article>
+<p>
+Guardo, salgo (:wq) y reinicio el proceso postgresql con el comando <code>sudo service postgresql restart</code>
+</p>
+
+
+</article>
+
+</slide>
+
+</slide>
+</slide>
+<slide id="sec-" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/phoenix.svg"></aside><hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline10" class="outline-2">
+<h2 id="orgheadline10">Servidor ya configurado</h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-">
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/phoenix.svg"></aside><hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline21" class="outline-2">
+<h2 id="orgheadline21"><a href="http://www.phoenixframework.org/docs/advanced-deployment#section-deploying-our-release">Modifico mi proyecto elixir</a></h2>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-">
+
+
+</article>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline11" class="outline-3">
+<h3 id="orgheadline11">Configuro mi config/prod.secret.exs</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<p>
+para conectar postgresql del servidor
+</p>
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="images/config_proyecto1.png" alt="config_proyecto1.png" width="400px" />
+</p>
+</div>
+</article>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline12" class="outline-3">
+<h3 id="orgheadline12">Agrego EXRM a las dependencias</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="smaller" id="text-">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+## mix.exs
+  defp deps do
+    [{:phoenix, "~&gt; 1.2.1"},
+     {:phoenix_pubsub, "~&gt; 1.0"},
+     {:phoenix_ecto, "~&gt; 3.0"},
+     {:postgrex, "&gt;= 0.0.0"},
+     {:phoenix_html, "~&gt; 2.6"},
+     {:phoenix_live_reload, "~&gt; 1.0", only: :dev},
+     {:gettext, "~&gt; 0.11"},
+     {:cowboy, "~&gt; 1.0"},
+     {:comeonin, "~&gt; 2.5"},
+     {:guardian, "~&gt; 0.12.0"},
+     {:guardian_db, "~&gt; 0.7.0"},
+     {:calendar, "~&gt; 0.14.2"},
+     {:mailgun, "~&gt; 0.1.2"},
+     {:poison, "~&gt; 2.1", override: true}<b>,
+     {:exrm, "~&gt; 1.0"}</b>]
+  end
+</pre>
+
+</div>
+<p>
+Descargo las dependencias con <code>mix deps.get</code>
+</p>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline13" class="outline-3">
+<h3 id="orgheadline13">Configuro mi config/prod.exs</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="elixir">
+config :eduardo, Eduardo.Endpoint,
+  <b>http: [port: 80],
+  url: [host: "localhost", port: 80],
+  root: ".",</b>
+  cache_static_manifest: "priv/static/manifest.json",
+  <b>server: true,
+  version: Mix.Project.config[:version]</b>
+
+  ...
+
+  config :phoenix, :serve_endpoints, true
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline14" class="outline-3">
+<h3 id="orgheadline14">Comandos varios</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="cmd">
+$ npm run deploy ##Construyo los archivos estaticos
+$ MIX_ENV=prod mix compile  ##Compilo para producción
+$ MIX_ENV=prod mix phoenix.digest  ##Precompila los archivos estaticos
+$ MIX_ENV=prod mix ecto.create  ##Crea la base de datos en el servidor
+$ MIX_ENV=prod mix ecto.migrate  ##Migra la estructura de datos
+$ MIX_ENV=prod mix run priv/repo/seeds.exs  ##Añade datos semilla
+$ MIX_ENV=prod mix release  ##Creo el release
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline15" class="outline-3">
+<h3 id="orgheadline15">Antes de avanzar, retiro los permisos para remote access del postgresql prod</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<p>
+<code>vim /etc/postgresql/9.5/main/postgresql.conf</code>
+</p>
+
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="images/config_postgresql4.png" alt="config_postgresql4.png" width="400px" />
+</p>
+</div>
+</article>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline16" class="outline-3">
+<h3 id="orgheadline16">Antes de avanzar, retiro los permisos para remote access del postgresql prod</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<p>
+<code>vim /etc/postgresql/9.5/main/pg_hba.conf</code>
+</p>
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="images/config_postgresql5.png" alt="config_postgresql5.png" width="400px" />
+</p>
+</div>
+</article>
+<p>
+<code>sudo service postgresql restart</code>
+</p>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline17" class="outline-3">
+<h3 id="orgheadline17">Ahora si</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<p>
+si ejecutamos <code>rel/eduardo/bin/eduardo console</code> y vamos a <code>localhost</code> el servidor estara funcionando (por ahora todavia en nuestra maquina)
+</p>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline18" class="outline-3">
+<h3 id="orgheadline18">Llevando al servidor</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="cmd">
+## Con esto envio el release al servidor (Me pedira contraseña)
+$ scp rel/<b>proyecto</b>/releases/0.0.1/<b>proyecto</b>.tar.gz root@104.131.79.101:
+$ ssh root@104.131.79.101
+### Me pedira contraseña
+$ mkdir <b>proyecto</b>
+$ mv <b>proyecto</b>.tar.gz proyecto/
+$ cd <b>proyecto</b>
+$ tar xfz proyecto.tar.gz
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline19" class="outline-3">
+<h3 id="orgheadline19">Finalmente creamos un proceso de sistema para la aplicación</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="smaller" id="text-">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="cmd">
+$ sudo nano /etc/systemd/system/proyecto.service
+.....
+[Unit]
+Description=Proyecto System 
+After=network.target
+
+[Service]
+Type=simple
+User=root
+RemainAfterExit=yes
+Environment=MIX_ENV=prod
+WorkingDirectory=/root/<b>proyecto</b>/
+ExecStart=/root/<b>proyecto</b>/bin/<b>proyecto</b> start
+ExecStop=/root/<b>proyecto</b>/bin/<b>proyecto</b> stop
+Restart=on-failure
+TimeoutSec=300
+
+[Install]
+WantedBy=multi-user.target
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+</slide>
+<slide id="sec-"  >
+<hgroup class="">
+       <h2 class=" "><div id="outline-container-orgheadline20" class="outline-3">
+<h3 id="orgheadline20">Iniciamos</h3>
+</div>
+</h2>
+       <h3></h3>
+       </hgroup>
+<article class="smaller" id="text-">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="cmd">
+$ systemctl enable proyecto.service
+$ systemctl start proyecto.service
+</pre>
+
+</div>
+<article class="flexbox vcenter">
+
+<div class="figure">
+<p><img src="images/funcionando.png" alt="funcionando.png" width="700px" />
+</p>
+</div>
+</article>
+
+
+</article>
+
+</slide>
+
+</slide>
+
+</slide>
+<slide id="sec-" class=" thank-you-slide segue nobackground" style="background-image: url(nil)">
+<aside class="gdbar right"><img src="images/phoenix.svg"></aside><article class="flexbox vleft auto-fadein" id="text-">
+<h2>
+  <p>Gracias ˊ・ω・ˋ</p>
+</h2>
+<br>
+<p class="auto-fadein" data-config-contact>
+</p>
+</article>
+
+</slide>
+<slide class="backdrop"></slide>
+</slides> 
+<!--[if IE]>
+  <script src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+  <script>CFInstall.check({mode: 'overlay'});</script>
+<![endif]-->
+</body> 
+
+</html>

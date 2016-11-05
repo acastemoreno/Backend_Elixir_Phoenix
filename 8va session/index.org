@@ -1,0 +1,244 @@
+#+TITLE: Backend con Elixir Language y Phoenix Framework
+#+SUBTITLE: Deployment
+#+AUTHOR: Albert Castellano Moreno
+#+EMAIL: acastemoreno@gmail.com
+#+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:nil ^:t arch:headline
+#+OPTIONS: author:t c:nil creator:comment d:(not "LOGBOOK") date:t
+#+OPTIONS: e:t email:nil f:t inline:t num:nil p:nil pri:nil stat:t
+#+OPTIONS: tags:t tasks:t tex:t timestamp:t toc:nil todo:t |:t
+#+CREATOR: Emacs 24.4.1 (Org mode 8.2.10)
+#+DESCRIPTION:
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS:
+#+LANGUAGE: es
+#+SELECT_TAGS: export
+
+#+GITHUB: http://github.com/acastemoreno
+
+#+FAVICON: images/phoenix.svg
+#+ICON: images/phoenix.svg
+#+HASHTAG: #phoenix #makerlab #AmiguitoEsMiPastorNadaMeFaltara
+* 
+:PROPERTIES:
+:FILL:   images/phoenix.gif
+:TITLE:    white
+:SLIDE:    white
+:END:
+
+* Digitalocean
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+** Creando droplet
+:PROPERTIES:
+:ARTICLE:    smaller
+:END:
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 700px
+[[file:images/create_droplet1.png]]
+#+END_CENTER
+** Creando droplet
+:PROPERTIES:
+:ARTICLE:    smaller
+:END:
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 600px
+[[file:images/create_droplet2.png]]
+#+END_CENTER
+** Contraseña de droplet
+:PROPERTIES:
+:ARTICLE:    smaller
+:END:
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 600px
+[[file:images/create_droplet3.png]]
+#+END_CENTER
+** Loguandome al servidor
+:PROPERTIES:
+:ARTICLE:    smaller
+:END:
+Mediante consola
+#+BEGIN_SRC cmd
+$ ssh root@104.131.79.101
+### Me pedira contraseña (ademas de pedirme cambiarla)
+$ sudo locale-gen "en_US.UTF-8"
+$ sudo apt-get update && upgrade
+$ sudo apt-get install postgresql postgresql-contrib
+##Ahora me logueo como usuario postgres
+$ sudo su - postgres
+##Accedo a la consola de postgres
+$ psql
+##Creo el usuario, contraseña y privilegios
+postgres=# CREATE USER "proyecto_prod" WITH PASSWORD '123456';
+postgres=# ALTER USER "proyecto_prod" CREATEDB LOGIN;
+postgres=# \q
+$ exit
+$ vim /etc/postgresql/9.5/main/postgresql.conf
+#+END_SRC
+** 
+:PROPERTIES:
+:ARTICLE:    smaller
+:END:
+Modifico el archivo tal como se muestra (:wq es guardar y salir):
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 600px
+[[file:images/config_postgresql1.png]]
+#+END_CENTER
+** 
+:PROPERTIES:
+:ARTICLE:    smaller
+:END:
+#+BEGIN_SRC cmd
+$ vim /etc/postgresql/9.5/main/pg_hba.conf
+#+END_SRC
+Busco mi ip en un navegador para tener presente
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 650px
+[[file:images/config_postgresql2.png]]
+#+END_CENTER
+** Agrego mi ip a la configuración
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 400px
+[[file:images/config_postgresql3.png]]
+#+END_CENTER
+Guardo, salgo (:wq) y reinicio el proceso postgresql con el comando =sudo service postgresql restart=
+* Servidor ya configurado
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+* [[http://www.phoenixframework.org/docs/advanced-deployment#section-deploying-our-release][Modifico mi proyecto elixir]]
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+** Configuro mi config/prod.secret.exs
+para conectar postgresql del servidor
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 400px
+[[file:images/config_proyecto1.png]]
+#+END_CENTER
+** Agrego EXRM a las dependencias
+:PROPERTIES:
+:ARTICLE:    smaller
+:END:
+#+BEGIN_SRC elixir
+## mix.exs
+  defp deps do
+    [{:phoenix, "~> 1.2.1"},
+     {:phoenix_pubsub, "~> 1.0"},
+     {:phoenix_ecto, "~> 3.0"},
+     {:postgrex, ">= 0.0.0"},
+     {:phoenix_html, "~> 2.6"},
+     {:phoenix_live_reload, "~> 1.0", only: :dev},
+     {:gettext, "~> 0.11"},
+     {:cowboy, "~> 1.0"},
+     {:comeonin, "~> 2.5"},
+     {:guardian, "~> 0.12.0"},
+     {:guardian_db, "~> 0.7.0"},
+     {:calendar, "~> 0.14.2"},
+     {:mailgun, "~> 0.1.2"},
+     {:poison, "~> 2.1", override: true}<b>,
+     {:exrm, "~> 1.0"}</b>]
+  end
+#+END_SRC
+Descargo las dependencias con =mix deps.get=
+** Configuro mi config/prod.exs
+#+BEGIN_SRC elixir
+config :eduardo, Eduardo.Endpoint,
+  <b>http: [port: 80],
+  url: [host: "localhost", port: 80],
+  root: ".",</b>
+  cache_static_manifest: "priv/static/manifest.json",
+  <b>server: true,
+  version: Mix.Project.config[:version]</b>
+
+  ...
+
+  config :phoenix, :serve_endpoints, true
+#+END_SRC
+** Comandos varios
+#+BEGIN_SRC cmd
+$ npm run deploy ##Construyo los archivos estaticos
+$ MIX_ENV=prod mix compile  ##Compilo para producción
+$ MIX_ENV=prod mix phoenix.digest  ##Precompila los archivos estaticos
+$ MIX_ENV=prod mix ecto.create  ##Crea la base de datos en el servidor
+$ MIX_ENV=prod mix ecto.migrate  ##Migra la estructura de datos
+$ MIX_ENV=prod mix run priv/repo/seeds.exs  ##Añade datos semilla
+$ MIX_ENV=prod mix release  ##Creo el release
+#+END_SRC
+** Antes de avanzar, retiro los permisos para remote access del postgresql prod
+=vim /etc/postgresql/9.5/main/postgresql.conf=
+
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 400px
+[[file:images/config_postgresql4.png]]
+#+END_CENTER
+** Antes de avanzar, retiro los permisos para remote access del postgresql prod
+=vim /etc/postgresql/9.5/main/pg_hba.conf=
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 400px
+[[file:images/config_postgresql5.png]]
+#+END_CENTER
+=sudo service postgresql restart=
+** Ahora si
+si ejecutamos =rel/eduardo/bin/eduardo console= y vamos a =localhost= el servidor estara funcionando (por ahora todavia en nuestra maquina)
+** Llevando al servidor
+#+BEGIN_SRC cmd
+## Con esto envio el release al servidor (Me pedira contraseña)
+$ scp rel/<b>proyecto</b>/releases/0.0.1/<b>proyecto</b>.tar.gz root@104.131.79.101:
+$ ssh root@104.131.79.101
+### Me pedira contraseña
+$ mkdir <b>proyecto</b>
+$ mv <b>proyecto</b>.tar.gz proyecto/
+$ cd <b>proyecto</b>
+$ tar xfz proyecto.tar.gz
+#+END_SRC
+** Finalmente creamos un proceso de sistema para la aplicación
+:PROPERTIES:
+:ARTICLE:    smaller
+:END:
+#+BEGIN_SRC cmd
+$ sudo nano /etc/systemd/system/proyecto.service
+.....
+[Unit]
+Description=Proyecto System 
+After=network.target
+
+[Service]
+Type=simple
+User=root
+RemainAfterExit=yes
+Environment=MIX_ENV=prod
+WorkingDirectory=/root/<b>proyecto</b>/
+ExecStart=/root/<b>proyecto</b>/bin/<b>proyecto</b> start
+ExecStop=/root/<b>proyecto</b>/bin/<b>proyecto</b> stop
+Restart=on-failure
+TimeoutSec=300
+
+[Install]
+WantedBy=multi-user.target
+#+END_SRC
+** Iniciamos
+:PROPERTIES:
+:ARTICLE:    smaller
+:END:
+#+BEGIN_SRC cmd
+$ systemctl enable proyecto.service
+$ systemctl start proyecto.service
+#+END_SRC
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 700px
+[[file:images/funcionando.png]]
+#+END_CENTER
+
+* Gracias ˊ・ω・ˋ
+  :PROPERTIES:
+  :SLIDE: thank-you-slide segue
+  :ASIDE: right
+  :ARTICLE: flexbox vleft auto-fadein
+  :END:

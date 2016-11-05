@@ -17,7 +17,7 @@
 
 #+FAVICON: images/elixir.png
 #+ICON: images/elixir.png
-#+HASHTAG: #elixir #makerlab #AmiguitoEsMiPastorNadaMeFaltara
+#+HASHTAG: #elixir #AmiguitoEsMiPastorNadaMeFaltara
 
 * Lema de 3ra Session en adelante
   :PROPERTIES:
